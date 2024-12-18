@@ -3,242 +3,447 @@ CREATE (citiBank:Institution {institutionName: 'CitiBank', type: 'Financial'});
 CREATE (goldmanSachs:Institution {institutionName: 'Goldman Sachs', type: 'Financial'});
 CREATE (morganStanley:Institution {institutionName: 'Morgan stanley', type: 'Financial'});
 
-CREATE (bankOfAmerica)-[:LOCATED_AT]->(CedarAvenue);
-CREATE (citiBank)-[:LOCATED_AT]->(CedarAvenue);
-CREATE (goldmanSachs)-[:LOCATED_AT]->(CedarAvenue);
-CREATE (morganStanley)-[:LOCATED_AT]->(CedarAvenue);
+MATCH (bankOfAmerica:Institution {institutionName: 'Bank of America'}), (st:Street {name: 'Cedar Avenue'})
+CREATE (bankOfAmerica)-[:LOCATED_AT]->(st);
 
-//Parklane
+MATCH (citiBank:Institution {institutionName: 'CitiBank'}), (st:Street {name: 'Cedar Avenue'})
+CREATE (citiBank)-[:LOCATED_AT]->(st);
+
+MATCH (goldmanSachs:Institution {institutionName: 'Goldman Sachs'}), (st:Street {name: 'Cedar Avenue'})
+CREATE (goldmanSachs)-[:LOCATED_AT]->(st);
+
+MATCH (morganStanley:Institution {institutionName: 'Morgan stanley'}), (st:Street {name: 'Cedar Avenue'})
+CREATE (morganStanley)-[:LOCATED_AT]->(st);
+
 CREATE (nypdParklane:Institution {institutionName: 'NYPD Parklane', type: 'Security'});
-//ElmStreet
 CREATE (nypdElmstreet:Institution {institutionName: 'NYPD ElmStreet', type: 'Security'});
-//CedaerAvenue
 CREATE (nypdCedaerAvenue:Institution {institutionName: 'NYPD CedaerAvaenue', type: 'Security'});
-//WillowWay
 CREATE (nypdWillowway:Institution {institutionName: 'NYPD WillowWay', type: 'Security'});
-//RiverSide
 CREATE (nypdRiverside:Institution {institutionName: 'NYPD Riverside', type: 'Security'});
-//SunsetBoulevard
-CREATE (nypdSunsetPark:Institution {institutionName: 'NYPD Sunset Park', type: 'Security'});
+CREATE (nypdSunsetPark:Institution {institutionName: 'NYPD Sunset Boulevard', type: 'Security'});
 
-CREATE (hospital:Institution {institutionName: 'Hospital Sunset Park', type: 'Health'});
+MATCH (nypdParklane:Institution {institutionName: 'NYPD Parklane'}), (st:Street {name: 'Park Lane'})
+CREATE (nypdParklane)-[:LOCATED_AT]->(st);
+
+MATCH (nypdElmstreet:Institution {institutionName: 'NYPD Parklane'}), (st:Street {name: 'Elm Street'})
+CREATE (nypdElmstreet)-[:LOCATED_AT]->(st);
+
+MATCH (nypdCedaerAvenue:Institution {institutionName: 'NYPD Parklane'}), (st:Street {name: 'Cedar Avenue'})
+CREATE (nypdCedaerAvenue)-[:LOCATED_AT]->(st);
+
+MATCH (nypdWillowway:Institution {institutionName: 'NYPD Parklane'}), (st:Street {name: 'Willow Way'})
+CREATE (nypdWillowway)-[:LOCATED_AT]->(st);
+
+MATCH (nypdRiverside:Institution {institutionName: 'NYPD Parklane'}), (st:Street {name: 'Riverside Drive'})
+CREATE (nypdRiverside)-[:LOCATED_AT]->(st);
+
+MATCH (nypdSunsetPark:Institution {institutionName: 'NYPD Parklane'}), (st:Street {name: 'Sunset Boulevard'})
+CREATE (nypdSunsetPark)-[:LOCATED_AT]->(st);
+
+CREATE (hospital:Institution {institutionName: 'Hospital Sunset Boulevard', type: 'Health'});
+
+MATCH (hospital:Institution {institutionName: 'Hospital Sunset Park'}), (st:Street {name: 'Sunset Boulevard'})
+CREATE (hospital)-[:LOCATED_AT]->(st);
 
 CREATE (grocerymart:Shop {name: 'Grocery Mart', type: 'Food', openingHours: '8 AM - 10 PM'});
 CREATE (techWorld:Shop {name: 'Tech World', type: 'Electronics', openingHours: '10 AM - 8 PM'});
 CREATE (fashionBoutique:Shop {name: 'Fashion Boutique', type: 'Clothing', openingHours: '10 AM - 9 PM'});
 CREATE (bookHaven:Shop {name: 'Book Haven', type: 'Books', openingHours: '9 AM - 9 PM'});
 
-CREATE (grocerymart)-[:LOCATED_AT]->(RiverSideDrive);
-CREATE (techWorld)-[:LOCATED_AT]->(RiverSideDrive);
-CREATE (fashionBoutique)-[:LOCATED_AT]->(RiverSideDrive);
-CREATE (bookHaven)-[:LOCATED_AT]->(RiverSideDrive);
+MATCH (s:Shop {name: 'Grocery Mart'}), (st:Street {name: 'Riverside Drive'})
+CREATE (s)-[:LOCATED_AT]->(st);
+
+MATCH (s:Shop {name: 'Tech World'}), (st:Street {name: 'Riverside Drive'})
+CREATE (s)-[:LOCATED_AT]->(st);
+
+MATCH (s:Shop {name: 'Fashion Boutique'}), (st:Street {name: 'Riverside Drive'})
+CREATE (s)-[:LOCATED_AT]->(st);
+
+MATCH (s:Shop {name: 'Book Haven'}), (st:Street {name: 'Riverside Drive'})
+CREATE (s)-[:LOCATED_AT]->(st);
 
 CREATE (grocerymart:Shop {name: 'Grocery Mart', type: 'Food', openingHours: '8 AM - 10 PM'});
 CREATE (techworld:Shop {name: 'Tech World', type: 'Electronics', openingHours: '10 AM - 8 PM'});
 CREATE (fashionboutique:Shop {name: 'Fashion Boutique', type: 'Clothing', openingHours: '10 AM - 9 PM'});
 CREATE (bookhaven:Shop {name: 'Book Haven', type: 'Books', openingHours: '9 AM - 9 PM'});
-CREATE (AliceSmith)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 8}]->(fashionboutique);
-CREATE (BobJohnson)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 6}]->(fashionboutique);
-CREATE (CharlieBrown)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 9}]->(grocerymart);
-CREATE (DianaGreen)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 10}]->(grocerymart);
-CREATE (EveWhite)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 9}]->(techworld);
-CREATE (FrankBlack)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 2}]->(techworld);
-CREATE (GraceHarris)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 5}]->(techworld);
-CREATE (HenryKing)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 1}]->(techworld);
-CREATE (IvyScott)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 2}]->(techworld);
-CREATE (JackLee)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 7}]->(fashionboutique);
-CREATE (KarenMitchell)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 3}]->(techworld);
-CREATE (LukeWalker)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 6}]->(techworld);
-CREATE (MonaTaylor)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 5}]->(fashionboutique);
-CREATE (NathanAdams)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 1}]->(bookhaven);
-CREATE (OliviaClark)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 1}]->(fashionboutique);
-CREATE (PaulEvans)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 8}]->(fashionboutique);
-CREATE (QuinnBaker)-[:VISITED {TypeVisit: 'Just looking around', Purchases: 0, Visits: 5}]->(techworld);
-CREATE (RachelPhillips)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 5}]->(grocerymart);
-CREATE (SteveMorris)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 8}]->(fashionboutique);
-CREATE (TinaCampbell)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 8}]->(fashionboutique);
-CREATE (UmaReed)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 6}]->(techworld);
-CREATE (VictorBell)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 6}]->(grocerymart);
-CREATE (WendyTurner)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 1}]->(fashionboutique);
-CREATE (XanderMorgan)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 6}]->(fashionboutique);
-CREATE (YaraCollins)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 5}]->(bookhaven);
-CREATE (ZackFoster)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 6}]->(fashionboutique);
-CREATE (AmyYoung)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 4}]->(fashionboutique);
-CREATE (BrianDixon)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 8}]->(grocerymart);
-CREATE (CatherineKnight)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 3}]->(fashionboutique);
-CREATE (DanielGrant)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 6}]->(grocerymart);
-CREATE (EllaBrooks)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 8}]->(grocerymart);
-CREATE (FinnHayes)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 7}]->(grocerymart);
-CREATE (GeorgiaWright)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 4}]->(techworld);
-CREATE (HugoDawson)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 9, Visits: 3}]->(grocerymart);
-CREATE (IreneStone)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 14, Visits: 2}]->(bookhaven);
-CREATE (JakePerry)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 5}]->(techworld);
-CREATE (KaraBell)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 9}]->(fashionboutique);
-CREATE (LiamFord)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 6}]->(techworld);
-CREATE (MiaParker)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 1}]->(techworld);
-CREATE (NathanMiller)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 1}]->(techworld);
-CREATE (OliveHunt)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 4}]->(grocerymart);
-CREATE (PeterReynolds)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 14, Visits: 4}]->(grocerymart);
-CREATE (QuincyScott)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 4}]->(fashionboutique);
-CREATE (RoseEllis)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 5}]->(grocerymart);
-CREATE (SamuelWarren)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 14, Visits: 3}]->(fashionboutique);
-CREATE (TinaBlake)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 7}]->(techworld);
-CREATE (UmarDunn)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 10}]->(grocerymart);
-CREATE (VeraCole)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 3}]->(techworld);
-CREATE (WilliamEvans)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 4}]->(techworld);
-CREATE (ZaraLewis)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 3}]->(grocerymart);
-CREATE (AaronCarter)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 3}]->(techworld);
-CREATE (BellaHughes)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 10}]->(grocerymart);
-CREATE (CalebFisher)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 14, Visits: 7}]->(fashionboutique);
-CREATE (DaisyAnderson)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 5}]->(fashionboutique);
-CREATE (EthanRoss)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 6}]->(techworld);
-CREATE (FionaGriffin)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 6}]->(fashionboutique);
-CREATE (GeorgePayne)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 7}]->(grocerymart);
-CREATE (HannahStewart)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 3}]->(techworld);
-CREATE (IsaacBennett)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 7}]->(grocerymart);
-CREATE (JasmineOwens)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 3}]->(techworld);
-CREATE (KyleMorris)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 10}]->(grocerymart);
-CREATE (LauraMitchell)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 8}]->(grocerymart);
-CREATE (MartinEllis)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 2}]->(fashionboutique);
-CREATE (NinaReed)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 9}]->(grocerymart);
-CREATE (OscarPeterson)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 7}]->(techworld);
-CREATE (PaulaHarris)-[:VISITED {TypeVisit: 'Just looking around', Purchases: 0, Visits: 9}]->(techworld);
-CREATE (RyanCole)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 7}]->(techworld);
-CREATE (SophiaBryant)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 3}]->(techworld);
-CREATE (TomGray)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 3}]->(fashionboutique);
-CREATE (UnaWalker)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 7}]->(fashionboutique);
-CREATE (VictorLane)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 10}]->(grocerymart);
-CREATE (WandaHolmes)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 9}]->(techworld);
-CREATE (XavierBlake)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 2}]->(fashionboutique);
-CREATE (YvonneCarter)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 5}]->(fashionboutique);
-CREATE (ZaneRobinson)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 14, Visits: 2}]->(fashionboutique);
-CREATE (AliceHunter)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 1}]->(bookhaven);
-CREATE (BrianWright)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 8}]->(techworld);
-CREATE (ClaraEdwards)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 4}]->(grocerymart);
-CREATE (DerekHill)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 3}]->(grocerymart);
-CREATE (EveBrooks)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 1}]->(bookhaven);
-CREATE (FrankCooper)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 5}]->(techworld);
-CREATE (GracePeterson)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 1}]->(grocerymart);
-CREATE (HenryClark)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 6}]->(techworld);
-CREATE (IsabelStevens)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 3}]->(fashionboutique);
-CREATE (JackTurner)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 7}]->(grocerymart);
-CREATE (KaraLong)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 3}]->(bookhaven);
-CREATE (LiamFord)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 14, Visits: 3}]->(grocerymart);
-CREATE (MilaJenkins)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 9}]->(techworld);
-CREATE (NoahHayes)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 6}]->(grocerymart);
-CREATE (OliviaBell)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 5}]->(techworld);
-CREATE (PeterBryant)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 8}]->(techworld);
-CREATE (QuinnMason)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 7}]->(grocerymart);
-CREATE (RubyHenderson)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 6}]->(fashionboutique);
-CREATE (SamuelCrawford)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 8}]->(fashionboutique);
-CREATE (TinaEllis)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 2}]->(techworld);
-CREATE (UmaFisher)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 4}]->(fashionboutique);
-CREATE (VictorGriffin)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 9}]->(techworld);
-CREATE (WendyHayes)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 7}]->(grocerymart);
-CREATE (XanderIngram)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 10}]->(fashionboutique);
-CREATE (YaraJordan)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 5}]->(fashionboutique);
-CREATE (ZachKelly)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 7}]->(techworld);
-CREATE (AliceLawson)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 7}]->(fashionboutique);
-CREATE (BrianMurray)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 4}]->(techworld);
-CREATE (ClaraNewton)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 9}]->(grocerymart);
-CREATE (DavidOwens)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 7}]->(fashionboutique);
-CREATE (EmmaParker)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 5}]->(techworld);
-CREATE (FrankQuinn)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 5}]->(grocerymart);
-CREATE (GraceReed)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 9, Visits: 7}]->(grocerymart);
-CREATE (HenryStone)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 1}]->(bookhaven);
-CREATE (IvyTaylor)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 5}]->(techworld);
-CREATE (JackUnderwood)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 5}]->(grocerymart);
-CREATE (KaraVance)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 9}]->(fashionboutique);
-CREATE (LiamWalsh)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 10}]->(techworld);
-CREATE (MayaXavier)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 4}]->(fashionboutique);
-CREATE (NathanYork)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 1}]->(techworld);
-CREATE (OliviaZimmerman)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 8}]->(grocerymart);
-CREATE (PaulAnderson)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 9}]->(fashionboutique);
-CREATE (QuinnBenson)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 2}]->(bookhaven);
-CREATE (RubyCollins)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 2}]->(grocerymart);
-CREATE (SteveDavis)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 5}]->(techworld);
-CREATE (TinaEdwards)-[:VISITED {TypeVisit: 'Just looking around', Purchases: 0, Visits: 9}]->(fashionboutique);
-CREATE (UmaFoster)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 7}]->(grocerymart);
-CREATE (VictorGrant)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 6}]->(grocerymart);
-CREATE (WendyHarris)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 2}]->(grocerymart);
-CREATE (XanderIrwin)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 3}]->(techworld);
-CREATE (YaraJackson)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 1}]->(techworld);
-CREATE (ZackKennedy)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 2}]->(bookhaven);
-CREATE (AmyLewis)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 9}]->(grocerymart);
-CREATE (BrianMills)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 6}]->(grocerymart);
-CREATE (ClaraNelson)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 8}]->(techworld);
-CREATE (DavidOwens)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 10}]->(fashionboutique);
-CREATE (EllaParker)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 9}]->(grocerymart);
-CREATE (FinnQuinn)-[:VISITED {TypeVisit: 'Just looking around', Purchases: 0, Visits: 6}]->(grocerymart);
-CREATE (GraceReynolds)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 7}]->(grocerymart);
-CREATE (HenrySimmons)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 2}]->(grocerymart);
-CREATE (IslaTaylor)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 6}]->(fashionboutique);
-CREATE (JackUnderhill)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 8}]->(techworld);
-CREATE (KaraVaughn)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 6}]->(bookhaven);
-CREATE (LiamWells)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 8}]->(grocerymart);
-CREATE (MonaXanders)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 7}]->(grocerymart);
-CREATE (NoahYoung)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 5}]->(grocerymart);
-CREATE (OliviaZane)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 9}]->(techworld);
-CREATE (PaulAdams)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 9, Visits: 10}]->(grocerymart);
-CREATE (QuinnBaker)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 10}]->(fashionboutique);
-CREATE (RubyCarter)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 1}]->(fashionboutique);
-CREATE (SteveDenton)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 10}]->(fashionboutique);
-CREATE (TinaElliot)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 2}]->(techworld);
-CREATE (UmaFord)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 7}]->(techworld);
-CREATE (VictorGreen)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 9, Visits: 8}]->(grocerymart);
-CREATE (WendyHale)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 9, Visits: 2}]->(fashionboutique);
-CREATE (XavierIrwin)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 9}]->(fashionboutique);
-CREATE (YvonneJacobs)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 1}]->(grocerymart);
-CREATE (ZacharyKane)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 5}]->(techworld);
-CREATE (AbigailLewis)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 5}]->(grocerymart);
-CREATE (BenjaminMitchell)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 2}]->(grocerymart);
-CREATE (CharlotteNelson)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 3}]->(techworld);
-CREATE (DanielOwens)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 6}]->(techworld);
-CREATE (EleanorParker)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 8}]->(fashionboutique);
-CREATE (FranklinQuinn)-[:VISITED {TypeVisit: 'Just looking around', Purchases: 0, Visits: 7}]->(grocerymart);
-CREATE (GeorgiaReynolds)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 1}]->(grocerymart);
-CREATE (HarrySimmons)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 1}]->(fashionboutique);
-CREATE (IsabelTaylor)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 9}]->(grocerymart);
-CREATE (JacobUnderwood)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 10}]->(grocerymart);
-CREATE (KatherineVance)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 9}]->(fashionboutique);
-CREATE (LoganWalker)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 10}]->(fashionboutique);
-CREATE (MiaXander)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 9, Visits: 9}]->(techworld);
-CREATE (NathanielYoung)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 9}]->(techworld);
-CREATE (OliviaZimmer)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 10}]->(techworld);
-CREATE (PatrickAllen)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 5}]->(fashionboutique);
-CREATE (QuincyBates)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 3}]->(fashionboutique);
-CREATE (RebeccaCollins)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 8}]->(grocerymart);
-CREATE (SamuelDavis)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 1}]->(grocerymart);
-CREATE (TinaEvans)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 9}]->(techworld);
-CREATE (UrsulaFox)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 7}]->(fashionboutique);
-CREATE (VictorGreen)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 7}]->(grocerymart);
-CREATE (WendyHarris)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 1}]->(fashionboutique);
-CREATE (XanderIrwin)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 9}]->(grocerymart);
-CREATE (YvonneJones)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 7}]->(techworld);
-CREATE (ZacharyKlein)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 8}]->(bookhaven);
-CREATE (AvaLee)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 9}]->(techworld);
-CREATE (BrianMiller)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 6}]->(grocerymart);
-CREATE (CatherineNash)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 2}]->(techworld);
-CREATE (DavidOwens)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 4}]->(grocerymart);
-CREATE (ElenaPatterson)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 4}]->(fashionboutique);
-CREATE (FrankQuinn)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 9}]->(grocerymart);
-CREATE (GinaRoberts)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 8}]->(techworld);
-CREATE (HollySmith)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 5}]->(fashionboutique);
-CREATE (IsaacTurner)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 7}]->(grocerymart);
-CREATE (JackWilliams)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 6}]->(fashionboutique);
-CREATE (KathyDavis)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 5}]->(techworld);
-CREATE (LeoJohnson)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 4}]->(grocerymart);
-CREATE (MiaClark)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 4}]->(fashionboutique);
-CREATE (NateWalker)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 3}]->(techworld);
-CREATE (OliviaTaylor)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 9}]->(techworld);
-CREATE (PeterScott)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 5}]->(fashionboutique);
-CREATE (QuincyMorris)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 6}]->(techworld);
-CREATE (RachelEvans)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 5}]->(techworld);
-CREATE (SamuelAnderson)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 4}]->(techworld);
-CREATE (TracyHarris)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 9}]->(fashionboutique);
-CREATE (UrsulaJones)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 10}]->(fashionboutique);
-CREATE (VictorKing)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 5}]->(grocerymart);
-CREATE (WendyNelson)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 10}]->(grocerymart);
-CREATE (XanderParker)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 4}]->(grocerymart);
-CREATE (YvonneReid)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 1}]->(techworld);
-CREATE (ZacharyThompson)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 6}]->(grocerymart);
+
+MATCH (p:Person {firstName: 'Alice', lastName: 'Smith'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Bob', lastName: 'Johnson'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Charlie', lastName: 'Brown'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Diana', lastName: 'Green'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Eve', lastName: 'White'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Frank', lastName: 'Black'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Grace', lastName: 'Harris'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Henry', lastName: 'King'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Ivy', lastName: 'Scott'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Jack', lastName: 'Lee'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Karen', lastName: 'Mitchell'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Luke', lastName: 'Walker'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Mona', lastName: 'Taylor'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Nathan', lastName: 'Adams'}), (s:Shop {name: 'Book Haven'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Olivia', lastName: 'Clark'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Paul', lastName: 'Evans'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Quinn', lastName: 'Baker'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:VISITED {TypeVisit: 'Just looking around', Purchases: 0, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Rachel', lastName: 'Phillips'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Steve', lastName: 'Morris'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Tina', lastName: 'Campbell'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Uma', lastName: 'Reed'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Victor', lastName: 'Bell'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Wendy', lastName: 'Turner'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Xander', lastName: 'Morgan'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Yara', lastName: 'Collins'}), (s:Shop {name: 'Book Haven'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Zack', lastName: 'Foster'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Amy', lastName: 'Young'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 4}]->(s);
+MATCH (p:Person {firstName: 'Brian', lastName: 'Dixon'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Catherine', lastName: 'Knight'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Daniel', lastName: 'Grant'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Ella', lastName: 'Brooks'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Finn', lastName: 'Hayes'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Georgia', lastName: 'Wright'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 4}]->(s);
+MATCH (p:Person {firstName: 'Hugo', lastName: 'Dawson'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 9, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Irene', lastName: 'Stone'}), (s:Shop {name: 'Book Haven'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 14, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Jake', lastName: 'Perry'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Kara', lastName: 'Bell'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Liam', lastName: 'Ford'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Mia', lastName: 'Parker'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Nathan', lastName: 'Miller'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Olive', lastName: 'Hunt'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 4}]->(s);
+MATCH (p:Person {firstName: 'Peter', lastName: 'Reynolds'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 14, Visits: 4}]->(s);
+MATCH (p:Person {firstName: 'Quincy', lastName: 'Scott'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 4}]->(s);
+MATCH (p:Person {firstName: 'Rose', lastName: 'Ellis'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Samuel', lastName: 'Warren'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 14, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Tina', lastName: 'Blake'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Umar', lastName: 'Dunn'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Vera', lastName: 'Cole'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'William', lastName: 'Evans'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 4}]->(s);
+MATCH (p:Person {firstName: 'Zara', lastName: 'Lewis'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Aaron', lastName: 'Carter'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Bella', lastName: 'Hughes'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Caleb', lastName: 'Fisher'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 14, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Daisy', lastName: 'Anderson'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Ethan', lastName: 'Ross'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Fiona', lastName: 'Griffin'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'George', lastName: 'Payne'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Hannah', lastName: 'Stewart'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Isaac', lastName: 'Bennett'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Jasmine', lastName: 'Owens'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Kyle', lastName: 'Morris'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Laura', lastName: 'Mitchell'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Martin', lastName: 'Ellis'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Nina', lastName: 'Reed'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Oscar', lastName: 'Peterson'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Paula', lastName: 'Harris'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:VISITED {TypeVisit: 'Just looking around', Purchases: 0, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Ryan', lastName: 'Cole'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Sophia', lastName: 'Bryant'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Tom', lastName: 'Gray'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Una', lastName: 'Walker'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Victor', lastName: 'Lane'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Wanda', lastName: 'Holmes'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Xavier', lastName: 'Blake'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Yvonne', lastName: 'Carter'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Zane', lastName: 'Robinson'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 14, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Alice', lastName: 'Hunter'}), (s:Shop {name: 'Book Haven'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Brian', lastName: 'Wright'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Clara', lastName: 'Edwards'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 4}]->(s);
+MATCH (p:Person {firstName: 'Derek', lastName: 'Hill'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Eve', lastName: 'Brooks'}), (s:Shop {name: 'Book Haven'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Frank', lastName: 'Cooper'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Grace', lastName: 'Peterson'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Henry', lastName: 'Clark'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Isabel', lastName: 'Stevens'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Jack', lastName: 'Turner'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Kara', lastName: 'Long'}), (s:Shop {name: 'Book Haven'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Liam', lastName: 'Ford'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 14, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Mila', lastName: 'Jenkins'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Noah', lastName: 'Hayes'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Olivia', lastName: 'Bell'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Peter', lastName: 'Bryant'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Quinn', lastName: 'Mason'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Ruby', lastName: 'Henderson'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Samuel', lastName: 'Crawford'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Tina', lastName: 'Ellis'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Uma', lastName: 'Fisher'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 4}]->(s);
+MATCH (p:Person {firstName: 'Victor', lastName: 'Griffin'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Wendy', lastName: 'Hayes'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Xander', lastName: 'Ingram'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Yara', lastName: 'Jordan'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Zach', lastName: 'Kelly'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Alice', lastName: 'Lawson'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Brian', lastName: 'Murray'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 4}]->(s);
+MATCH (p:Person {firstName: 'Clara', lastName: 'Newton'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'David', lastName: 'Owens'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Emma', lastName: 'Parker'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Frank', lastName: 'Quinn'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Grace', lastName: 'Reed'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 9, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Henry', lastName: 'Stone'}), (s:Shop {name: 'Book Haven'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Ivy', lastName: 'Taylor'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Jack', lastName: 'Underwood'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Kara', lastName: 'Vance'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Liam', lastName: 'Walsh'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Maya', lastName: 'Xavier'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 4}]->(s);
+MATCH (p:Person {firstName: 'Nathan', lastName: 'York'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Olivia', lastName: 'Zimmerman'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Paul', lastName: 'Anderson'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Quinn', lastName: 'Benson'}), (s:Shop {name: 'Book Haven'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Ruby', lastName: 'Collins'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Steve', lastName: 'Davis'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Tina', lastName: 'Edwards'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:VISITED {TypeVisit: 'Just looking around', Purchases: 0, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Uma', lastName: 'Foster'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Victor', lastName: 'Grant'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Wendy', lastName: 'Harris'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 11, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Xander', lastName: 'Irwin'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Yara', lastName: 'Jackson'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Zack', lastName: 'Kennedy'}), (s:Shop {name: 'Book Haven'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Amy', lastName: 'Lewis'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Brian', lastName: 'Mills'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Clara', lastName: 'Nelson'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'David', lastName: 'Owens'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Ella', lastName: 'Parker'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Finn', lastName: 'Quinn'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:VISITED {TypeVisit: 'Just looking around', Purchases: 0, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Grace', lastName: 'Reynolds'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Henry', lastName: 'Simmons'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Isla', lastName: 'Taylor'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Jack', lastName: 'Underhill'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Kara', lastName: 'Vaughn'}), (s:Shop {name: 'Book Haven'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Liam', lastName: 'Wells'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Mona', lastName: 'Xanders'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Noah', lastName: 'Young'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Olivia', lastName: 'Zane'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Paul', lastName: 'Adams'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 9, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Quinn', lastName: 'Baker'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Ruby', lastName: 'Carter'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Steve', lastName: 'Denton'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Tina', lastName: 'Elliot'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Uma', lastName: 'Ford'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Victor', lastName: 'Green'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 9, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Wendy', lastName: 'Hale'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 9, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Xavier', lastName: 'Irwin'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Yvonne', lastName: 'Jacobs'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Zachary', lastName: 'Kane'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Abigail', lastName: 'Lewis'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Benjamin', lastName: 'Mitchell'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'Charlotte', lastName: 'Nelson'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Daniel', lastName: 'Owens'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Eleanor', lastName: 'Parker'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Franklin', lastName: 'Quinn'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:VISITED {TypeVisit: 'Just looking around', Purchases: 0, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Georgia', lastName: 'Reynolds'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Harry', lastName: 'Simmons'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Isabel', lastName: 'Taylor'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Jacob', lastName: 'Underwood'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Katherine', lastName: 'Vance'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Logan', lastName: 'Walker'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Mia', lastName: 'Xander'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 9, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Nathaniel', lastName: 'Young'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Olivia', lastName: 'Zimmer'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 10}]->(s);
+MATCH (p:Person {firstName: 'Patrick', lastName: 'Allen'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Quincy', lastName: 'Bates'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 3}]->(s);
+MATCH (p:Person {firstName: 'Rebecca', lastName: 'Collins'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 13, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Samuel', lastName: 'Davis'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 6, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Tina', lastName: 'Evans'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Ursula', lastName: 'Fox'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Victor', lastName: 'Green'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Wendy', lastName: 'Harris'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 8, Visits: 1}]->(s);
+MATCH (p:Person {firstName: 'Xander', lastName: 'Irwin'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Yvonne', lastName: 'Jones'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Zachary', lastName: 'Klein'}), (s:Shop {name: 'Book Haven'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Ava', lastName: 'Lee'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 2, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Brian', lastName: 'Miller'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 1, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Catherine', lastName: 'Nash'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 5, Visits: 2}]->(s);
+MATCH (p:Person {firstName: 'David', lastName: 'Owens'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 4}]->(s);
+MATCH (p:Person {firstName: 'Elena', lastName: 'Patterson'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 12, Visits: 4}]->(s);
+MATCH (p:Person {firstName: 'Frank', lastName: 'Quinn'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 4, Visits: 9}]->(s);
+MATCH (p:Person {firstName: 'Gina', lastName: 'Roberts'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 10, Visits: 8}]->(s);
+MATCH (p:Person {firstName: 'Holly', lastName: 'Smith'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 5}]->(s);
+MATCH (p:Person {firstName: 'Isaac', lastName: 'Turner'}), (s:Shop {name: 'Grocery Mart'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 7}]->(s);
+MATCH (p:Person {firstName: 'Jack', lastName: 'Williams'}), (s:Shop {name: 'Fashion Boutique'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 6}]->(s);
+MATCH (p:Person {firstName: 'Kathy', lastName: 'Davis'}), (s:Shop {name: 'Tech World'})
+CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Frequent purchase', Purchases: 7, Visits: 5}]->(s);
