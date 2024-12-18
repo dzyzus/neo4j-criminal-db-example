@@ -1,10 +1,10 @@
 // Tworzenie zbrodni
-CREATE (robbery:Crime {crimeType: 'Robbery', date: '2023-05-12', sentence: '5 years'})
-CREATE (murder:Crime {crimeType: 'Murder', date: '2024-05-12', sentence: '25 years'})
-CREATE (fraud:Crime {crimeType: 'Fraud', date: '2022-11-04', sentence: '3 years'})
+CREATE (robbery:Crime {crimeType: 'Robbery', date: '2023-05-12', sentence: '5 years'});
+CREATE (murder:Crime {crimeType: 'Murder', date: '2024-05-12', sentence: '25 years'});
+CREATE (fraud:Crime {crimeType: 'Fraud', date: '2022-11-04', sentence: '3 years'});
 
 // Łączenie zbrodni z miejscem
-CREATE (robbery)-[:COMMITTED_AT {date: '2023-05-12'}]->(grocerymart)
+CREATE (robbery)-[:COMMITTED_AT {date: '2023-05-12'}]->(grocerymart);
 
 // Dowody związane z przestępstwem włamania (Paula Harris)
 CREATE (witnessStatementHairColorRobbery:Evidence {
@@ -38,29 +38,29 @@ CREATE (witnessStatementLeavingRobbery:Evidence {
 });
 
 // Tworzenie relacji dla znalezionych dowodów z kradzieżą
-CREATE (witnessStatementHairColorRobbery)-[:RELATED_TO]->(robbery)
-CREATE (witnessStatementHeightRobbery)-[:RELATED_TO]->(robbery)
-CREATE (phoneDataRobbery)-[:RELATED_TO]->(robbery)
-CREATE (cctvFootageRobbery)-[:RELATED_TO]->(robbery)
-CREATE (witnessStatementLeavingRobbery)-[:RELATED_TO]->(robbery)
+CREATE (witnessStatementHairColorRobbery)-[:RELATED_TO]->(robbery);
+CREATE (witnessStatementHeightRobbery)-[:RELATED_TO]->(robbery);
+CREATE (phoneDataRobbery)-[:RELATED_TO]->(robbery);
+CREATE (cctvFootageRobbery)-[:RELATED_TO]->(robbery);
+CREATE (witnessStatementLeavingRobbery)-[:RELATED_TO]->(robbery);
 
 // Dowody związane z przestępstwem morderstwa (Isla Taylor)
-CREATE (securityFootage:Evidence {type: 'Security Footage', details: 'Surveillance footage shows black hair woman entering the victim\'s house before the murder. Height: 155-165 cm'})
-CREATE (murderWeapon:Evidence {type: 'Murder Weapon', details: 'Murder weapon found in victim possession with engraved IT on blade'})
+CREATE (securityFootage:Evidence {type: 'Security Footage', details: 'Surveillance footage shows black hair woman entering the victim\'s house before the murder. Height: 155-165 cm'});
+CREATE (murderWeapon:Evidence {type: 'Murder Weapon', details: 'Murder weapon found in victim possession with engraved IT on blade'});
 
 // Dowody związane z przestępstwem defraudacji (Victor Grant)
-CREATE (fakeInvoice:Evidence {type: 'Fake Invoice', details: 'Invoice forged with falsified company details'})
-CREATE (bankRecord:Evidence {type: 'Bank Record', details: 'Bank statement shows unauthorized transfer linked to Victor Grant'})
-CREATE (testimony:Evidence {type: 'Witness Testimony', details: 'Witness reports seeing Victor Grant signing suspicious documents'})
-CREATE (emailFraud:Evidence {type: 'Email Record', details: 'Email from Victor Grant discussing fraudulent transactions with another party'})
+CREATE (fakeInvoice:Evidence {type: 'Fake Invoice', details: 'Invoice forged with falsified company details'});
+CREATE (bankRecord:Evidence {type: 'Bank Record', details: 'Bank statement shows unauthorized transfer linked to Victor Grant'});
+CREATE (testimony:Evidence {type: 'Witness Testimony', details: 'Witness reports seeing Victor Grant signing suspicious documents'});
+CREATE (emailFraud:Evidence {type: 'Email Record', details: 'Email from Victor Grant discussing fraudulent transactions with another party'});
 
 
 // Tworzenie relacji dla znalezionych dowodów z defraudacją
-CREATE (fakeInvoice)-[:RELATED_TO]->(fraud)
-CREATE (bankRecord)-[:RELATED_TO]->(fraud)
-CREATE (testimony)-[:RELATED_TO]->(fraud)
-CREATE (emailFraud)-[:RELATED_TO]->(fraud)
+CREATE (fakeInvoice)-[:RELATED_TO]->(fraud);
+CREATE (bankRecord)-[:RELATED_TO]->(fraud);
+CREATE (testimony)-[:RELATED_TO]->(fraud);
+CREATE (emailFraud)-[:RELATED_TO]->(fraud);
 
 // Tworzenie relacji dla znalezionych dowodów z morderstwem
-CREATE (securityFootage)-[:RELATED_TO]->(murder)
-CREATE (murderWeapon)-[:RELATED_TO]->(murder)
+CREATE (securityFootage)-[:RELATED_TO]->(murder);
+CREATE (murderWeapon)-[:RELATED_TO]->(murder);

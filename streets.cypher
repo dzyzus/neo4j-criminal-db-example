@@ -2,42 +2,42 @@ CREATE (ElmStreet:Street {
     name: 'Elm Street',
     city: 'New York',
     postalCode: '10005',
-    type: 'Residential',
+    type: 'Residential'
 });
 
 CREATE (ParkLane:Street {
     name: 'Park Lane',
     city: 'New York',
     postalCode: '10006',
-    type: 'Commercial',
+    type: 'Commercial'
 });
 
 CREATE (CedarAvenue:Street {
     name: 'Cedar Avenue',
     city: 'New York',
     postalCode: '10007',
-    type: 'Industrial',
+    type: 'Industrial'
 });
 
 CREATE (WillowWay:Street {
     name: 'Willow Way',
     city: 'New York',
     postalCode: '10008',
-    type: 'Residential',
+    type: 'Residential'
 });
 
 CREATE (RiverSideDrive:Street {
     name: 'Riverside Drive',
     city: 'New York',
     postalCode: '10009',
-    type: 'Commercial',
+    type: 'Commercial'
 });
 
 CREATE (SunsetBoulevard:Street {
     name: 'Sunset Boulevard',
     city: 'New York',
     postalCode: '10010',
-    type: 'Industrial',
+    type: 'Industrial'
 });
 
 CREATE (AliceSmith)-[:LIVES_ON]->(RiverSideDrive);
