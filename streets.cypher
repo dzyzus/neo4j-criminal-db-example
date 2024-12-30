@@ -40,6 +40,21 @@ CREATE (SunsetBoulevard:Street {
     type: 'Industrial'
 });
 
+MATCH (elm:Street {name: 'Elm Street'}), (park:Street {name: 'Park Lane'})
+CREATE (elm)-[:CONNECTED_TO]->(park);
+
+MATCH (park:Street {name: 'Park Lane'}), (cedar:Street {name: 'Cedar Avenue'})
+CREATE (park)-[:CONNECTED_TO]->(cedar);
+
+MATCH (cedar:Street {name: 'Cedar Avenue'}), (willow:Street {name: 'Willow Way'})
+CREATE (cedar)-[:CONNECTED_TO]->(willow);
+
+MATCH (willow:Street {name: 'Willow Way'}), (river:Street {name: 'Riverside Drive'})
+CREATE (willow)-[:CONNECTED_TO]->(river);
+
+MATCH (river:Street {name: 'Riverside Drive'}), (sunset:Street {name: 'Sunset Boulevard'})
+CREATE (river)-[:CONNECTED_TO]->(sunset);
+
 MATCH (p:Person {firstName: 'Alice', lastName: 'Smith'}), (s:Street {name: 'RiverSideDrive'})
 CREATE (p)-[:LIVES_ON]->(s);
 MATCH (p:Person {firstName: 'Bob', lastName: 'Johnson'}), (s:Street {name: 'ElmStreet'})
