@@ -6,6 +6,12 @@ CREATE (fraud:Crime {crimeType: 'Fraud', date: '2022-11-04', sentence: '3 years'
 MATCH (robbery:Crime {crimeType: 'Robbery'}), (s:Shop {name: 'Grocery Mart'})
 CREATE (robbery)-[:COMMITTED_AT]->(s);
 
+MATCH (murder:Crime {crimeType: 'Murder'}), (st:Street {name: 'Park Lane'})
+CREATE (murder)-[:COMMITTED_AT]->(st);
+
+MATCH (fraud:Crime {crimeType: 'Fraud'}), (inst:Institution {institutionName: 'Bank of America'})
+CREATE (fraud)-[:COMMITTED_AT]->(inst);
+
 // Dowody związane z przestępstwem włamania (Paula Harris)
 CREATE (witnessStatementHairColorRobbery:Evidence {
     type: 'Witness Statement',
