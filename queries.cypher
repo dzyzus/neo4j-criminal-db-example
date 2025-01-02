@@ -14,7 +14,7 @@ WHERE person.hairColor = 'red' AND person.height >= 160 AND person.height <= 170
 RETURN person.firstName, person.lastName, person.height, person.hairColor
 LIMIT 5;
 
-// Zapytanie o osoby powiązane z numerem telefonu wykrytym w pobliżu miejsca przestępstwa (Robbery): + kolor oczu i włosów
+// Zapytanie o osoby powiązane z numerem telefonu wykrytym w pobliżu miejsca przestępstwa (Robbery):
 MATCH (person:Person)
 WHERE toString(person.phoneNumber) ENDS WITH '951'
 RETURN person.firstName, person.lastName, person.phoneNumber, person.hairColor, person.eyeColor
@@ -48,10 +48,13 @@ LIMIT 5;
 // Złozone zapytania
 ////
 
-// Potencjalni świadkowie w odległości 2 od miejsca zbrodni
-MATCH (crime:Crime)-[:COMMITTED_AT]->(location)-[:LOCATED_AT]->(street:Street),
+// Potencjalni świadkowie w odległości 2 od miejsca zbrodni - robbery
+MATCH (crime:Crime {crimeType: 'Robbery'})-[:COMMITTED_AT]->(location)-[:LOCATED_AT]->(street:Street),
       path = (street)-[:CONNECTED_TO*1..2]->(neighbor:Street)<-[:LIVES_ON]-(person:Person)
-RETURN DISTINCT person.firstName, person.lastName, neighbor.name AS potentialWitnessLocation, street.name AS crimeLocation;
+RETURN DISTINCT person.firstName, 
+                person.lastName, 
+                neighbor.name AS potentialWitnessLocation, 
+                street.name AS crimeLocation;
 
 //Liczba zbrodni na danej ulicy i rodzaje miejsc popełnienia:
 MATCH (crime:Crime)-[:COMMITTED_AT]->(location)-[:LOCATED_AT]->(street:Street)

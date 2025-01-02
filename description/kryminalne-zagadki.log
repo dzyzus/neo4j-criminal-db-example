@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.22)  2 JAN 2025 16:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.22)  2 JAN 2025 17:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -232,45 +232,67 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2{c:/texlive/2023/texmf-
 dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 93.
+(Font)              <12> on input line 95.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 93.
+(Font)              <8> on input line 95.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 93.
+(Font)              <6> on input line 95.
 <paula_harris.png, id=18, 910.15031pt x 331.2375pt>
 File: paula_harris.png Graphic file (type png)
 <use paula_harris.png>
-Package pdftex.def Info: paula_harris.png  used on input line 98.
+Package pdftex.def Info: paula_harris.png  used on input line 100.
 (pdftex.def)             Requested size: 317.07614pt x 115.39404pt.
 <robbery.png, id=20, 466.74374pt x 344.78813pt>
 File: robbery.png Graphic file (type png)
 <use robbery.png>
-Package pdftex.def Info: robbery.png  used on input line 115.
+Package pdftex.def Info: robbery.png  used on input line 117.
 (pdftex.def)             Requested size: 317.07614pt x 234.2371pt.
  [3 <./paula_harris.png> <./robbery.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 127--130
+Underfull \hbox (badness 10000) in paragraph at lines 129--132
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 157--161
+Underfull \hbox (badness 10000) in paragraph at lines 159--163
 
  []
 
-[4] [5] (./kryminalne-zagadki.aux)
+[4]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5]
+Overfull \hbox (12.3372pt too wide) in paragraph at lines 268--278
+ [][] 
+ []
+
+<commited_at.png, id=35, 361.35pt x 192.72pt>
+File: commited_at.png Graphic file (type png)
+<use commited_at.png>
+Package pdftex.def Info: commited_at.png  used on input line 284.
+(pdftex.def)             Requested size: 317.07614pt x 169.1089pt.
+<located_at.png, id=36, 667.74469pt x 315.42844pt>
+File: located_at.png Graphic file (type png)
+<use located_at.png>
+Package pdftex.def Info: located_at.png  used on input line 289.
+(pdftex.def)             Requested size: 317.07614pt x 149.78192pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[6 <./commited_at.png>] [7 <./located_at.png>] (./kryminalne-zagadki.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-10-10>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 4382 strings out of 474504
- 62097 string characters out of 5756725
+ 4418 strings out of 474504
+ 62715 string characters out of 5756725
  1993043 words of memory out of 5000000
- 26339 multiletter control sequences out of 15000+600000
+ 26375 multiletter control sequences out of 15000+600000
  572275 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,8n,65p,647b,1272s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,9n,65p,647b,1272s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbi1200.pfb><c:/texl
 ive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb><c:/texlive/2023/t
 exmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb><c:/texlive/2023/texmf-dist/
@@ -280,10 +302,10 @@ m-super/sfbx2488.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sf
 cc1440.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb
 ><c:/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb><c:/texli
 ve/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb>
-Output written on kryminalne-zagadki.pdf (5 pages, 245683 bytes).
+Output written on kryminalne-zagadki.pdf (7 pages, 298195 bytes).
 PDF statistics:
- 83 PDF objects out of 1000 (max. 8388607)
- 49 compressed objects within 1 object stream
+ 95 PDF objects out of 1000 (max. 8388607)
+ 55 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
