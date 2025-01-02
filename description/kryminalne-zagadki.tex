@@ -2,7 +2,21 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor} 
+\usepackage{booktabs}
+\usepackage{geometry}
 
+\geometry{a4paper, margin=1in}
+\lstdefinelanguage{Cypher}{
+  keywords={MATCH, RETURN, CREATE, DELETE, WHERE, SET, MERGE, LIMIT},
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]'
+}
 % Ustawienie wyglądu tytułu
 \title{\vspace{2cm} \textbf{\Huge Kryminalne zagadki} \\[1cm] \large Uniwersytet Gdański \\ Grafowe Bazy Danych \vspace{2cm}}
 
@@ -66,7 +80,112 @@ Wierzchołek \textbf{Crime} reprezentuje zbrodnie. Posiada własciwości: typ pr
 
 Wierzchołek \textbf{Evidence} reprezentuje dowód, który posiada własciwości takie jak: typ, opis oraz date złożenia lub jego znalezienia. Jest powiązany z wierzchołkiem zbrodnia za pomocą relacji EVIDENCE\_IN.
 
-\section{Zapytania}
+\section{Zapytania Cypher}
+
+W ramach demonstracji przeszukiwania grafowej bazy danych naszym podejrzanym w przypadku włamania do sklepu będzie Paula Harris. Na początek wypiszmy wszystkie informacje jakie mamy o tej osobie.
+
+\begin{center}
+\begin{minipage}{0.8\linewidth}
+\begin{lstlisting}[language=Cypher, basicstyle=\small, breaklines=true]
+MATCH (p:Person {firstName: 'Paula', lastName: 'Harris'})-[r]->(related)
+RETURN p, r, related
+\end{lstlisting}
+\end{minipage}
+\end{center}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{paula_harris.png}
+\end{figure}
+
+Teraz prześledźmy wszystkie dowody związane ze sprawą włamania i spróbujmy na podstawie ich znaleźć osobę, która własnie jemu odpowiada.
+
+\begin{center}
+\begin{minipage}{0.8\linewidth}
+\begin{lstlisting}[language=Cypher, basicstyle=\small, breaklines=true]
+MATCH (n)-[r]->(m)
+WHERE n.crimeType = 'Robbery' AND n.date = '2023-05-12' 
+RETURN r, n, m;
+\end{lstlisting}
+\end{minipage}
+\end{center}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{robbery.png} 
+\end{figure}
+
+\newpage
+Na podstawie zeznań świadków:
+
+\begin{itemize}
+    \item A witness reported seeing a person with medium-length red hair leaving the scene of the robbery at around 12:05 AM.
+    \item A witness reported that the suspect had a height between 160 and 170 cm.
+    \item A witness saw a person with red hair near the scene of the robbery at approximately 11:50 PM.
+\end{itemize}
+
+oraz nagrania z kamery, które wg opisu mówi nam: CCTV footage shows a person with medium-length red hair and blue eyes near the robbery location at 11:55 PM.
+\newline
+\newline Wyszukajmy osoby pasujące do tego rysopisu:
+
+\begin{center}
+\begin{minipage}{0.8\linewidth}
+\begin{lstlisting}[language=Cypher, basicstyle=\small, breaklines=true]
+MATCH (person:Person)
+WHERE person.hairColor = 'red' AND person.height >= 160 AND person.height <= 170 AND person.eyeColor = 'blue'
+RETURN person.firstName, person.lastName, person.height, person.hairColor, person.eyeColor
+LIMIT 5;
+\end{lstlisting}
+\end{minipage}
+\end{center}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|c|c|c|}
+\hline
+\textbf{First Name} & \textbf{Last Name} & \textbf{Height (cm)} & \textbf{Hair Color} & \textbf{Eye Color} \\ \hline
+Daisy               & Anderson           & 160                 & red                 & blue               \\ \hline
+Paula               & Harris             & 167                 & red                 & blue               \\ \hline
+Wanda               & Holmes             & 170                 & red                 & blue               \\ \hline
+Grace               & Reed               & 164                 & red                 & blue               \\ \hline
+Maya                & Xavier             & 163                 & red                 & blue               \\ \hline
+\end{tabular}
+\caption{Tabela przedstawiająca dane osób z kolorem włosów "red" i kolorem oczu "blue".}
+\label{tab:person_data_with_eyes}
+\end{table}
+
+Jak widać, mamy na naszej liście osobę, która popełniła to przestępstwo, jednak nie daje nam to ostatecznego potwierdzenia, że jest to osoba, która powinna zostać uznana za winną popełnionego przestępstwa. Został jeszcze jeden dowód z centrali telefonicznej w obrębie obszaru, gdzie popełniono przestępstwo.
+\newline
+\newline
+"A phone with the number which ends on ...951 was found to have been frequently used near the crime scene, with activity under the alias "AngryVoice" reported around the time of the robbery."
+
+\begin{center}
+\begin{minipage}{0.8\linewidth}
+\begin{lstlisting}[language=Cypher, basicstyle=\small, breaklines=true]
+MATCH (person:Person)
+WHERE toString(person.phoneNumber) ENDS WITH '951'
+RETURN person.firstName, person.lastName, person.phoneNumber, person.hairColor, person.eyeColor
+LIMIT 5;
+\end{lstlisting}
+\end{minipage}
+\end{center}
+\newpage
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{First Name} & \textbf{Last Name} & \textbf{Phone Number} & \textbf{Hair Color} & \textbf{Eye Color} \\ \hline
+Paula              & Harris             & 753486951             & red                 & blue               \\ \hline
+Henry              & Clark              & 852147951             & grey                & brown              \\ \hline
+Emma               & Parker             & 852147951             & blonde              & green              \\ \hline
+Brian              & Mills              & 456789951             & brown               & blue               \\ \hline
+David              & Owens              & 753456951             & black               & brown              \\ \hline
+\end{tabular}
+\caption{Tabela przedstawiająca dane osobowe, numery telefonów oraz kolory włosów i oczu.}
+\label{tab:person_data}
+\end{table}
+
+Jak widać, osoba którą podejrzewaliśmy znajduje się na tej liście - sprawa została rozwiązana.
 
 \section{Algorytmy}
 

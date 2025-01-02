@@ -14,10 +14,10 @@ WHERE person.hairColor = 'red' AND person.height >= 160 AND person.height <= 170
 RETURN person.firstName, person.lastName, person.height, person.hairColor
 LIMIT 5;
 
-// Zapytanie o osoby powiązane z numerem telefonu wykrytym w pobliżu miejsca przestępstwa (Robbery):
+// Zapytanie o osoby powiązane z numerem telefonu wykrytym w pobliżu miejsca przestępstwa (Robbery): + kolor oczu i włosów
 MATCH (person:Person)
-WHERE person.phoneNumber ENDS WITH '951'
-RETURN person.firstName, person.lastName, person.phoneNumber
+WHERE toString(person.phoneNumber) ENDS WITH '951'
+RETURN person.firstName, person.lastName, person.phoneNumber, person.hairColor, person.eyeColor
 LIMIT 5;
 
 // Zapytanie o osoby pasujące do opisu z monitoringu (Murder):

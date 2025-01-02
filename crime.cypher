@@ -21,7 +21,7 @@ CREATE (witnessStatementHairColorRobbery:Evidence {
 
 CREATE (witnessStatementHeightRobbery:Evidence {
     type: 'Witness Statement',
-    description: 'A witness reported that the suspect had a height between 160 and 170 cm, consistent with the height of Paula Harris.',
+    description: 'A witness reported that the suspect had a height between 160 and 170 cm.',
     timestamp: '2023-05-12'
 });
 
