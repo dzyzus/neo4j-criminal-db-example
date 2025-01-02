@@ -62,21 +62,28 @@ RETURN street.name AS StreetName, COUNT(crime) AS CrimeCount, COLLECT(DISTINCT l
 // Algorytmy grafowe
 ////
 
-// Betweenness Centrality dla ulic:
-CALL gds.betweenness.stream({
-    nodeProjection: 'Street',
-    relationshipProjection: {
+// logyrtm betweenness centriality dla ulic
+
+CALL gds.graph.project(
+    'streetGraph',  // Name of the graph
+    'Street',       // Node label
+    {
         CONNECTED_TO: {
             type: 'CONNECTED_TO',
             orientation: 'UNDIRECTED'
         }
     }
-})
+)
+
+CALL gds.betweenness.stream('streetGraph') 
 YIELD nodeId, score
 RETURN gds.util.asNode(nodeId).name AS Street, score
 ORDER BY score DESC;
 
-// Najbliżsi sąsiedzi instytucji (K-Nearest Neighbors):
+CALL gds.graph.drop('streetGraph')
+
+// Najbliżsi sąsiedzi instytucji (K-Nearest Neighbors) - do poprawki
+
 CALL gds.knn.write({
     nodeProjection: 'Institution',
     relationshipProjection: {

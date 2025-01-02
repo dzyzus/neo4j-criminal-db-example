@@ -1,0 +1,73 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Ustawienie wyglądu tytułu
+\title{\vspace{2cm} \textbf{\Huge Kryminalne zagadki} \\[1cm] \large Uniwersytet Gdański \\ Grafowe Bazy Danych \vspace{2cm}}
+
+% Autorzy i data
+\author{\textsc{Michał Redkwa, Maciej Marzec}}
+\date{12.01.2025}
+
+\begin{document}
+
+% Strona tytulowa
+\maketitle
+
+\newpage
+
+\section{Wstęp}
+\subsection{Założenia projektu}
+
+W ramach projektu zaliczeniowego stworzyliśmy grafową bazę danych, której celem jest pokazanie, w jaki sposób za pomocą algorytmów i zapytań można zidentyfikować osobę odpowiedzialną za popełnienie przestępstwa. Na bazie zostały przeprowadzone zapytania, które pozwalają na wskazanie osób, które mogą być bezpośrednio związane z dowodami przestępstwa lub pełnić rolę potencjalnych świadków. Dzięki zastosowaniu zaawansowanych algorytmów, jesteśmy w stanie ocenić ich znaczenie w kontekście śledztwa oraz wytypować osoby o najmocniejszych powiązaniach z podejrzanymi.
+
+\subsection{Opis wierzchołków oraz relacji pomiędzy nimi}
+
+\begin{center}
+    \textbf{\textit{Person}}
+\end{center}
+
+Wierzchołek \textbf{Person} reprezentuje osobę, posiada on właściwości: imię, nazwisko, wiek, długość oraz kolor włosów, kolor oczu, numer telefonu, numer konta bankowego oraz zawód jaki wykonuje. Jest on powiązany z następującymi wierzchołkami:
+
+\begin{itemize}
+    \item \textbf{Street} – relacja LIVES\_ON pomiędzy Person a Street.
+    \item \textbf{Shop} – relacja BOUGHT\_AT lub VISITED pomiędzy Person a Shop. Relacja posiada dodatkowo właściwości, takie jak: typ wizyty, ilośc zakupów, ilośc wizyt.
+    \item \textbf{Institution} – TODO ?? Zrobić powiązanie z bankiem jak ktoś ma tam konto?
+\end{itemize}
+
+\begin{center}
+    \textbf{\textit{Street}}
+\end{center}
+
+Wierzchołek \textbf{Street} reprezentuje ulicę, zawiera takie własciowiści jak: nazwa, miasto, kod, typ. Ulice sa powiązane ze sobą za pomocą relacji CONNECTED\_TO.
+
+\begin{center}
+    \textbf{\textit{Institution}}
+\end{center}
+
+Wierzchołek \textbf{Institution} reprezentuje instytucję, jego własciowościami jest nazwa oraz jaki jest to typ instytucji. Wierzchołek ten powiązany jest z ulicami za pomocą relacji LOCATED\_AT.
+
+\begin{center}
+    \textbf{\textit{Shop}}
+\end{center}
+
+Wierzchołek \textbf{Shop} reprezentuje sklep. Posiada następujące własciwości: nazwa, typ oraz godziny otwarcia. Jest powiązany z ulicą za pomocą relacji LOCATED\_AT.
+
+\begin{center}
+    \textbf{\textit{Crime}}
+\end{center}
+
+Wierzchołek \textbf{Crime} reprezentuje zbrodnie. Posiada własciwości: typ przestępstwa, data, wyrok. Jest powiązany z daną ulicą, sklepem czy instytucją za pomocą relacji o nazwie COMMITTED\_AT.
+
+\begin{center}
+    \textbf{\textit{Evidence}}
+\end{center}
+
+Wierzchołek \textbf{Evidence} reprezentuje dowód, który posiada własciwości takie jak: typ, opis oraz date złożenia lub jego znalezienia. Jest powiązany z wierzchołkiem zbrodnia za pomocą relacji EVIDENCE\_IN.
+
+\section{Zapytania}
+
+\section{Algorytmy}
+
+\end{document}
