@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.22)  2 JAN 2025 17:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.22)  3 JAN 2025 12:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -146,7 +146,11 @@ File: l3backend-pdftex.def 2023-10-10 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count274
 \l__pdf_internal_box=\box53
 )
-(./kryminalne-zagadki.aux)
+(./kryminalne-zagadki.aux
+
+LaTeX Warning: Label `tab:crime_data' multiply defined.
+
+)
 \openout1 = `kryminalne-zagadki.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
@@ -163,8 +167,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
 LaTeX Font Info:    ... okay on input line 27.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
 LaTeX Font Info:    ... okay on input line 27.
-
-(c:/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+ (c:/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count275
 \scratchdimen=\dimen168
@@ -262,37 +265,87 @@ Underfull \hbox (badness 10000) in paragraph at lines 159--163
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [5]
-Overfull \hbox (12.3372pt too wide) in paragraph at lines 268--278
- [][] 
- []
-
 <commited_at.png, id=35, 361.35pt x 192.72pt>
 File: commited_at.png Graphic file (type png)
 <use commited_at.png>
-Package pdftex.def Info: commited_at.png  used on input line 284.
+Package pdftex.def Info: commited_at.png  used on input line 258.
 (pdftex.def)             Requested size: 317.07614pt x 169.1089pt.
 <located_at.png, id=36, 667.74469pt x 315.42844pt>
 File: located_at.png Graphic file (type png)
 <use located_at.png>
-Package pdftex.def Info: located_at.png  used on input line 289.
+Package pdftex.def Info: located_at.png  used on input line 265.
 (pdftex.def)             Requested size: 317.07614pt x 149.78192pt.
+ [6 <./commited_at.png> <./located_at.png>]
+Overfull \hbox (12.3372pt too wide) in paragraph at lines 286--296
+ [][] 
+ []
+
+[7]
+Underfull \hbox (badness 4378) in paragraph at lines 355--355
+[]\T1/cmr/m/n/12 Witness State-ment, Wit-ness State-ment,
+ []
+
+
+Underfull \hbox (badness 1715) in paragraph at lines 394--394
+[]\T1/cmr/m/n/12 NYPD Park-lane, NYPD Elm-
+ []
+
+
+Underfull \hbox (badness 7468) in paragraph at lines 394--394
+[]\T1/cmr/m/n/12 Bank of Amer-ica, CitiBank,
+ []
+
+
+Underfull \hbox (badness 2600) in paragraph at lines 394--394
+[]\T1/cmr/m/n/12 NYPD Park-lane, NYPD Wil-
+ []
+
+
+Underfull \hbox (badness 7631) in paragraph at lines 394--394
+\T1/cmr/m/n/12 Fash-ion Bou-tique, Book
+ []
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 394--394
+[]\T1/cmr/m/n/12 NYPD Park-lane, NYPD Sun-
+ []
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[6 <./commited_at.png>] [7 <./located_at.png>] (./kryminalne-zagadki.aux)
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 423--423
+[]\T1/cmr/bx/n/12 Height Be-tween
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 423--423
+[]\T1/cmr/bx/n/12 Phone Num-ber
+ []
+
+
+Overfull \hbox (50.27618pt too wide) in paragraph at lines 421--428
+ [][] 
+ []
+
+[9] [10] (./kryminalne-zagadki.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-10-10>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 4418 strings out of 474504
- 62715 string characters out of 5756725
- 1993043 words of memory out of 5000000
- 26375 multiletter control sequences out of 15000+600000
+ 4479 strings out of 474504
+ 63484 string characters out of 5756725
+ 2063043 words of memory out of 5000000
+ 26436 multiletter control sequences out of 15000+600000
  572275 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,9n,65p,647b,1272s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,11n,65p,647b,1283s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbi1200.pfb><c:/texl
 ive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb><c:/texlive/2023/t
 exmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb><c:/texlive/2023/texmf-dist/
@@ -302,10 +355,10 @@ m-super/sfbx2488.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sf
 cc1440.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb
 ><c:/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb><c:/texli
 ve/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb>
-Output written on kryminalne-zagadki.pdf (7 pages, 298195 bytes).
+Output written on kryminalne-zagadki.pdf (10 pages, 312469 bytes).
 PDF statistics:
- 95 PDF objects out of 1000 (max. 8388607)
- 55 compressed objects within 1 object stream
+ 104 PDF objects out of 1000 (max. 8388607)
+ 61 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

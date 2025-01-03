@@ -22,27 +22,24 @@ CREATE (nypdWillowway:Institution {institutionName: 'NYPD WillowWay', type: 'Sec
 CREATE (nypdRiverside:Institution {institutionName: 'NYPD Riverside', type: 'Security'});
 CREATE (nypdSunsetPark:Institution {institutionName: 'NYPD Sunset Boulevard', type: 'Security'});
 
-MATCH (nypdParklane:Institution {institutionName: 'NYPD Parklane'}), (st:Street {name: 'Park Lane'})
-CREATE (nypdParklane)-[:LOCATED_AT]->(st);
-
-MATCH (nypdElmstreet:Institution {institutionName: 'NYPD Parklane'}), (st:Street {name: 'Elm Street'})
+MATCH (nypdElmstreet:Institution {institutionName: 'NYPD ElmStreet'}), (st:Street {name: 'Elm Street'})
 CREATE (nypdElmstreet)-[:LOCATED_AT]->(st);
 
-MATCH (nypdCedaerAvenue:Institution {institutionName: 'NYPD Parklane'}), (st:Street {name: 'Cedar Avenue'})
-CREATE (nypdCedaerAvenue)-[:LOCATED_AT]->(st);
+MATCH (nypdCedarAvenue:Institution {institutionName: 'NYPD CedaerAvaenue'}), (st:Street {name: 'Cedar Avenue'})
+CREATE (nypdCedarAvenue)-[:LOCATED_AT]->(st);
 
-MATCH (nypdWillowway:Institution {institutionName: 'NYPD Parklane'}), (st:Street {name: 'Willow Way'})
+MATCH (nypdWillowway:Institution {institutionName: 'NYPD WillowWay'}), (st:Street {name: 'Willow Way'})
 CREATE (nypdWillowway)-[:LOCATED_AT]->(st);
 
-MATCH (nypdRiverside:Institution {institutionName: 'NYPD Parklane'}), (st:Street {name: 'Riverside Drive'})
+MATCH (nypdRiverside:Institution {institutionName: 'NYPD Riverside'}), (st:Street {name: 'Riverside Drive'})
 CREATE (nypdRiverside)-[:LOCATED_AT]->(st);
 
-MATCH (nypdSunsetPark:Institution {institutionName: 'NYPD Parklane'}), (st:Street {name: 'Sunset Boulevard'})
+MATCH (nypdSunsetPark:Institution {institutionName: 'NYPD Sunset Boulevard'}), (st:Street {name: 'Sunset Boulevard'})
 CREATE (nypdSunsetPark)-[:LOCATED_AT]->(st);
 
 CREATE (hospital:Institution {institutionName: 'Hospital Sunset Boulevard', type: 'Health'});
 
-MATCH (hospital:Institution {institutionName: 'Hospital Sunset Park'}), (st:Street {name: 'Sunset Boulevard'})
+MATCH (hospital:Institution {institutionName: 'Hospital Sunset Boulevard'}), (st:Street {name: 'Sunset Boulevard'})
 CREATE (hospital)-[:LOCATED_AT]->(st);
 
 CREATE (grocerymart:Shop {name: 'Grocery Mart', type: 'Food', openingHours: '8 AM - 10 PM'});
@@ -61,11 +58,6 @@ CREATE (s)-[:LOCATED_AT]->(st);
 
 MATCH (s:Shop {name: 'Book Haven'}), (st:Street {name: 'Riverside Drive'})
 CREATE (s)-[:LOCATED_AT]->(st);
-
-CREATE (grocerymart:Shop {name: 'Grocery Mart', type: 'Food', openingHours: '8 AM - 10 PM'});
-CREATE (techworld:Shop {name: 'Tech World', type: 'Electronics', openingHours: '10 AM - 8 PM'});
-CREATE (fashionboutique:Shop {name: 'Fashion Boutique', type: 'Clothing', openingHours: '10 AM - 9 PM'});
-CREATE (bookhaven:Shop {name: 'Book Haven', type: 'Books', openingHours: '9 AM - 9 PM'});
 
 MATCH (p:Person {firstName: 'Alice', lastName: 'Smith'}), (s:Shop {name: 'Fashion Boutique'})
 CREATE (p)-[:BOUGHT_AT {TypeVisit: 'Rare purchase', Purchases: 3, Visits: 8}]->(s);

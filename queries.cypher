@@ -56,11 +56,52 @@ RETURN DISTINCT person.firstName,
                 neighbor.name AS potentialWitnessLocation, 
                 street.name AS crimeLocation;
 
-//Liczba zbrodni na danej ulicy i rodzaje miejsc popełnienia:
-MATCH (crime:Crime)-[:COMMITTED_AT]->(location)-[:LOCATED_AT]->(street:Street)
-RETURN street.name AS StreetName, COUNT(crime) AS CrimeCount, COLLECT(DISTINCT location.name) AS Locations;
+//Liczba zbrodni na danej ulicy/lokacji/typ
+MATCH (crime:Crime)-[:COMMITTED_AT]->(location)
+OPTIONAL MATCH (location)-[:LOCATED_AT]->(street:Street)
+OPTIONAL MATCH (crime)-[:COMMITTED_AT]->(institution:Institution)
+RETURN 
+    COALESCE(street.name, location.name) AS StreetName, 
+    COUNT(DISTINCT crime) AS CrimeCount, 
+    COLLECT(DISTINCT CASE 
+        WHEN institution IS NOT NULL THEN institution.institutionName 
+        ELSE location.name 
+    END) AS CrimeLocations,
+    COLLECT(DISTINCT crime.crimeType) AS CrimeTypes;
 
+//Wypisanie wszystkich dowodów zbrodni, zliczenie ich oraz wypisanie jakie to są typy
+MATCH (crime:Crime)-[:COMMITTED_AT]->(location)
+OPTIONAL MATCH (evidence:Evidence)-[:EVIDENCE_IN]->(crime)
+RETURN 
+    crime.crimeType AS CrimeType,
+    COUNT(evidence) AS EvidenceCount,
+    COLLECT(evidence.type) AS EvidenceTypes
+ORDER BY EvidenceCount DESC;
 
+//Ilosc ludzi zyjacych na danych ulicach, jakie są sklepy oraz instytucje
+MATCH (s:Street)
+OPTIONAL MATCH (i:Institution)-[:LOCATED_AT]->(s)
+OPTIONAL MATCH (sh:Shop)-[:LOCATED_AT]->(s)
+OPTIONAL MATCH (p:Person)-[:LIVES_ON]->(s)
+WITH s, 
+     collect(DISTINCT i.institutionName) AS Institutions, 
+     collect(DISTINCT sh.name) AS Shops, 
+     count(DISTINCT p) AS PeopleLiving
+RETURN s.name AS Street, Institutions, Shops, PeopleLiving;
+
+//Ilość osób, która pasuje do przestępstwa włamania z podziałem na wzrost, kolor włosów, oczu oraz końcówke nr telefonu.
+MATCH (p:Person)
+WITH
+    COUNT(CASE WHEN p.height >= 160 AND p.height <= 170 THEN 1 END) AS HeightBetween160And170,
+    COUNT(CASE WHEN p.hairColor = 'red' THEN 1 END) AS RedHairColor,
+    COUNT(CASE WHEN TOSTRING(p.phoneNumber) ENDS WITH '951' THEN 1 END) AS PhoneNumberEndsWith951,
+    COUNT(CASE WHEN p.eyeColor = 'blue' THEN 1 END) AS BlueEyeColor
+RETURN 
+    HeightBetween160And170 AS `Height Between 160 and 170`, 
+    RedHairColor AS `Red Hair Color`, 
+    PhoneNumberEndsWith951 AS `Phone Number Ends With 951`,
+    BlueEyeColor AS `Blue Eye Color`
+    
 ////
 // Algorytmy grafowe
 ////

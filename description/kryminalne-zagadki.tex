@@ -10,7 +10,7 @@
 
 \geometry{a4paper, margin=1in}
 \lstdefinelanguage{Cypher}{
-  keywords={MATCH, RETURN, CREATE, DELETE, WHERE, SET, MERGE, LIMIT},
+  keywords={TOSTRING, MATCH, RETURN, CREATE, DELETE, WHERE, SET, MERGE, LIMIT, DISTINCT, COLLECT, COALESCE, COUNT, END, WHEN, ELSE, IS NOT NULL, THEN, OPTIONAL},
   sensitive=true,
   comment=[l]{//},
   morecomment=[s]{/*}{*/},
@@ -251,14 +251,32 @@ Kolejna sprawa rozwiązana - naszym mordercą w tym przypadku jest Isla Taylor.
 
 \subsection{Złożone zapytania}
 
-Zapytanie, które ma na celu wskazanie potencjalnych świadków w odległości 2 od miejsca zbrodni włamanie.
+\subsubsection{Grafowe przedstawienie powiązań do wykonywanych zapytań}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{commited_at.png}
+    \caption{Graf przedstawiający połączenia dokonanych zbrodni z miejscem.}
+    \label{fig:commited_at}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{located_at.png}
+    \caption{Graf przedstawiający połączenia instytucji oraz sklepów z ulicami.}
+    \label{fig:located_at}
+\end{figure}
+
+\subsubsection{Przykładowanie zapytania oraz wyniki}
+
+1. Zapytanie, które ma na celu wskazanie potencjalnych świadków w odległości 2 od miejsca zbrodni włamanie.
 
 \begin{center}
 \begin{minipage}{0.8\linewidth}
 \begin{lstlisting}[language=Cypher, basicstyle=\small, breaklines=true]
 MATCH (crime:Crime)-[:COMMITTED_AT]->(location)-[:LOCATED_AT]->(street:Street),
       path = (street)-[:CONNECTED_TO*1..2]->(neighbor:Street)<-[:LIVES_ON]-(person:Person)
-RETURN DISTINCT person.firstName, person.lastName, neighbor.name AS potentialWitnessLocation, street.name AS crimeLocation;;
+RETURN DISTINCT person.firstName, person.lastName, neighbor.name AS potentialWitnessLocation, street.name AS crimeLocation;
 \end{lstlisting}
 \end{minipage}
 \end{center}
@@ -279,15 +297,139 @@ RETURN DISTINCT person.firstName, person.lastName, neighbor.name AS potentialWit
 \label{tab:witness_data}
 \end{table}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{commited_at.png}
-\end{figure}
+2. Zapytanie, które zwróci w tabeli liczbę zbrodni w danej lokalizacji, jej ilość oraz typ.
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{located_at.png}
-\end{figure}
+\begin{center}
+\begin{minipage}{0.8\linewidth}
+\begin{lstlisting}[language=Cypher, basicstyle=\small, breaklines=true]
+MATCH (crime:Crime)-[:COMMITTED_AT]->(location)
+OPTIONAL MATCH (location)-[:LOCATED_AT]->(street:Street)
+OPTIONAL MATCH (crime)-[:COMMITTED_AT]->(institution:Institution)
+RETURN 
+    COALESCE(street.name, location.name) AS StreetName, 
+    COUNT(DISTINCT crime) AS CrimeCount, 
+    COLLECT(DISTINCT CASE 
+        WHEN institution IS NOT NULL THEN institution.institutionName 
+        ELSE location.name 
+    END) AS CrimeLocations,
+    COLLECT(DISTINCT crime.crimeType) AS CrimeTypes;
+\end{lstlisting}
+\end{minipage}
+\end{center}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|l|l|l|l|}
+\hline
+\textbf{No.} & \textbf{StreetName}     & \textbf{CrimeCount} & \textbf{CrimeLocations}     & \textbf{CrimeTypes} \\ \hline
+1            & Riverside Drive         & 1                   &Tech World              & Robbery         \\ \hline
+2            & Park Lane               & 1                   &Park Lane               & Murder          \\ \hline
+3            & Cedar Avenue            & 1                   &Bank of America         & Fraud           \\ \hline
+\end{tabular}
+\caption{Tabela przedstawiająca dane dotyczące przestępstw, lokalizacji i typów przestępstw.}
+\label{tab:crime_data}
+\end{table}
+
+\newpage
+3. Podsumowanie wszystkich popełnionych zbrodni, zliczenie ilości dowodów i wymienienie ich typów.
+
+\begin{center}
+\begin{minipage}{0.8\linewidth}
+\begin{lstlisting}[language=Cypher, basicstyle=\small, breaklines=true]
+MATCH (crime:Crime)-[:COMMITTED_AT]->(location)
+OPTIONAL MATCH (evidence:Evidence)-[:EVIDENCE_IN]->(crime)
+RETURN 
+    crime.crimeType AS CrimeType,
+    COUNT(evidence) AS EvidenceCount,
+    COLLECT(evidence.type) AS EvidenceTypes
+ORDER BY EvidenceCount DESC;
+\end{lstlisting}
+\end{minipage}
+\end{center}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|l|l|p{8cm}|}
+\hline
+\textbf{No.} & \textbf{CrimeType}     & \textbf{EvidenceCount} & \textbf{EvidenceTypes} \\ \hline
+1            & Robbery & 5              & Witness Statement, Witness Statement, Phone Data, CCTV, Witness Statement \\ \hline
+2            & Fraud & 4               & Fake Invoice, Bank Record, Witness Testimony, Email Record \\ \hline
+3            & Murder & 2              & Security Footage, Murder Weapon \\ \hline
+\end{tabular}
+\caption{Tabela przedstawiająca dane dotyczące przestępstw oraz zebranych dowodów powiązanych z nimi}
+\label{tab:crime_data}
+\end{table}
+
+4. Zebranie w tabelę ile ludzi żyje na danej ulicy, jakie są sklepy oraz instytucje.
+
+\begin{center}
+\begin{minipage}{0.8\linewidth}
+\begin{lstlisting}[language=Cypher, basicstyle=\small, breaklines=true]
+MATCH (s:Street)
+OPTIONAL MATCH (i:Institution)-[:LOCATED_AT]->(s)
+OPTIONAL MATCH (sh:Shop)-[:LOCATED_AT]->(s)
+OPTIONAL MATCH (p:Person)-[:LIVES_ON]->(s)
+WITH s, 
+     collect(DISTINCT i.institutionName) AS Institutions, 
+     collect(DISTINCT sh.name) AS Shops, 
+     count(DISTINCT p) AS PeopleLiving
+RETURN s.name AS Street, Institutions, Shops, PeopleLiving;
+\end{lstlisting}
+\end{minipage}
+\end{center}
+
+\begin{table}[h!]
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|l|p{6cm}|p{5cm}|c|}
+\hline
+\textbf{No.} & \textbf{Street}          & \textbf{Institutions}                                                                                     & \textbf{Shops}                                                & \textbf{PeopleLiving} \\ \hline
+1            & Elm Street               & NYPD Parklane, NYPD ElmStreet                                                                             & -                                                             & 41                   \\ \hline
+2            & Park Lane                & NYPD Parklane                                                                                             & -                                                             & 33                   \\ \hline
+3            & Cedar Avenue             & Bank of America, CitiBank, Goldman Sachs, Morgan Stanley, NYPD Parklane, NYPD CedaerAvaenue              & -                                                             & 36                   \\ \hline
+4            & Willow Way               & NYPD Parklane, NYPD WillowWay                                                                             & -                                                             & 36                   \\ \hline
+5            & Riverside Drive          & NYPD Parklane, NYPD Riverside                                                                             & Grocery Mart, Tech World, Fashion Boutique, Book Haven       & 38                   \\ \hline
+6            & Sunset Boulevard         & NYPD Parklane, NYPD Sunset Boulevard, Hospital Sunset Boulevard                                           & -                                                             & 37                   \\ \hline
+\end{tabular}
+}
+\caption{Tabela przedstawiająca dane dotyczące ulic, instytucji, sklepów oraz liczby mieszkańców.}
+\label{tab:street_data}
+\end{table}
+
+5. Zebranie w tabelę ile osób wg. dowodów pasuje do popełnionej zbrodni (osobno).
+
+\begin{center}
+\begin{minipage}{0.8\linewidth}
+\begin{lstlisting}[language=Cypher, basicstyle=\small, breaklines=true]
+MATCH (p:Person)
+WITH
+    COUNT(CASE WHEN p.height >= 160 AND p.height <= 170 THEN 1 END) AS HeightBetween160And170,
+    COUNT(CASE WHEN p.hairColor = 'red' THEN 1 END) AS RedHairColor,
+    COUNT(CASE WHEN TOSTRING(p.phoneNumber) ENDS WITH '951' THEN 1 END) AS PhoneNumberEndsWith951,
+    COUNT(CASE WHEN p.eyeColor = 'blue' THEN 1 END) AS BlueEyeColor
+RETURN 
+    HeightBetween160And170 AS `Height Between 160 and 170`, 
+    RedHairColor AS `Red Hair Color`, 
+    PhoneNumberEndsWith951 AS `Phone Number Ends With 951`,
+    BlueEyeColor AS `Blue Eye Color`
+\end{lstlisting}
+\end{minipage}
+\end{center}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{4cm}|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Height Between 160 and 170} & \textbf{Red Hair Color} & \textbf{Phone Number Ends With 951} & \textbf{Blue Eye Color} \\
+\hline
+101 & 41 & 14 & 80 \\
+\hline
+\end{tabular}
+\caption{Tabela przedstawiająca liczbę osób pasujących per dowód w sprawie włamania.}
+\label{tab:criteria_counts}
+\end{table}
+
+\newpage
 
 \section{Algorytmy}
 
