@@ -1,3 +1,5 @@
+CREATE (grocerymart:Shop {name: 'Grocery Mart', type: 'Food', openingHours: '8 AM - 10 PM'});
+
 CREATE (bankOfAmerica:Institution {institutionName: 'Bank of America', type: 'Financial'});
 CREATE (citiBank:Institution {institutionName: 'CitiBank', type: 'Financial'});
 CREATE (goldmanSachs:Institution {institutionName: 'Goldman Sachs', type: 'Financial'});
@@ -42,7 +44,6 @@ CREATE (hospital:Institution {institutionName: 'Hospital Sunset Boulevard', type
 MATCH (hospital:Institution {institutionName: 'Hospital Sunset Boulevard'}), (st:Street {name: 'Sunset Boulevard'})
 CREATE (hospital)-[:LOCATED_AT]->(st);
 
-CREATE (grocerymart:Shop {name: 'Grocery Mart', type: 'Food', openingHours: '8 AM - 10 PM'});
 CREATE (techWorld:Shop {name: 'Tech World', type: 'Electronics', openingHours: '10 AM - 8 PM'});
 CREATE (fashionBoutique:Shop {name: 'Fashion Boutique', type: 'Clothing', openingHours: '10 AM - 9 PM'});
 CREATE (bookHaven:Shop {name: 'Book Haven', type: 'Books', openingHours: '9 AM - 9 PM'});

@@ -55,6 +55,28 @@ CREATE (willow)-[:CONNECTED_TO]->(river);
 MATCH (river:Street {name: 'Riverside Drive'}), (sunset:Street {name: 'Sunset Boulevard'})
 CREATE (river)-[:CONNECTED_TO]->(sunset);
 
+MATCH (sunset:Street {name: 'Sunset Boulevard'}), (park:Street {name: 'Park Lane'})
+CREATE (sunset)-[:CONNECTED_TO]->(park);
+
+MATCH (sunset:Street {name: 'Sunset Boulevard'}), (willow:Street {name: 'Willow Way'})
+CREATE (sunset)-[:CONNECTED_TO]->(willow);
+
+MATCH (cedar:Street {name: 'Cedar Avenue'}), (river:Street {name: 'Riverside Drive'})
+CREATE (cedar)-[:CONNECTED_TO]->(river);
+
+MATCH (park:Street {name: 'Park Lane'}), (river:Street {name: 'Riverside Drive'})
+CREATE (park)-[:CONNECTED_TO]->(river);
+
+MATCH (elm:Street {name: 'Elm Street'}), (sunset:Street {name: 'Sunset Boulevard'})
+CREATE (elm)-[:CONNECTED_TO]->(sunset);
+
+MATCH (elm:Street {name: 'Elm Street'}), (cedar:Street {name: 'Cedar Avenue'})
+CREATE (elm)-[:CONNECTED_TO]->(cedar);
+
+MATCH (a:Street)-[r:CONNECTED_TO]->(b:Street)
+SET r.distance_property = toInteger(rand() * 3 + 1)
+RETURN a.name AS StreetA, b.name AS StreetB, r.distance_property AS Distance;
+
 MATCH (p:Person {firstName: 'Alice', lastName: 'Smith'}), (s:Street {name: 'Riverside Drive'})
 CREATE (p)-[:LIVES_ON]->(s);
 MATCH (p:Person {firstName: 'Bob', lastName: 'Johnson'}), (s:Street {name: 'Elm Street'})
