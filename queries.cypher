@@ -106,77 +106,44 @@ RETURN
 // Algorytmy grafowe
 ////
 
-// logyrtm betweenness centriality dla ulic
-
-CALL gds.graph.project(
-    'streetGraph',  // Name of the graph
-    'Street',       // Node label
+// louvain
+CALL gds.louvain.stream(
+    'streetGraph',  // Nazwa grafu
     {
-        CONNECTED_TO: {
-            type: 'CONNECTED_TO',
-            orientation: 'UNDIRECTED'
-        }
+        relationshipTypes: ['CONNECTED_TO']
     }
 )
+YIELD nodeId, communityId
+RETURN gds.util.asNode(nodeId).name AS Street, communityId
+ORDER BY communityId;
 
+// betweenness
 CALL gds.betweenness.stream('streetGraph') 
 YIELD nodeId, score
 RETURN gds.util.asNode(nodeId).name AS Street, score
 ORDER BY score DESC;
 
-CALL gds.graph.drop('streetGraph')
-
-// Najbliżsi sąsiedzi instytucji (K-Nearest Neighbors) - do poprawki
-
-CALL gds.knn.write({
-    nodeProjection: 'Institution',
-    relationshipProjection: {
-        LOCATED_AT: {
-            type: 'LOCATED_AT',
-            orientation: 'UNDIRECTED'
-        }
-    },
-    writeRelationshipType: 'SIMILAR',
-    writeProperty: 'similarity'
-})
-YIELD nodesCompared, relationshipsWritten;
-
-// Społeczności wśród ulic (Community Detection):
-CALL gds.louvain.stream({
-    nodeProjection: 'Street',
-    relationshipProjection: {
-        CONNECTED_TO: {
-            type: 'CONNECTED_TO',
-            orientation: 'UNDIRECTED'
-        }
+CALL gds.louvain.stream(
+    'streetGraph',  // Nazwa grafu
+    {
+        relationshipTypes: ['CONNECTED_TO']
     }
-})
+)
 YIELD nodeId, communityId
 RETURN gds.util.asNode(nodeId).name AS Street, communityId
 ORDER BY communityId;
 
-
-// znajduje najkrótszą ścieżkę między zbrodnią a osobami spełniającymi wymagania świadka dla robbery
-MATCH (crime:Crime {crimeType: 'Robbery'})-[:COMMITTED_AT]->(start:Street),
-      (witness:Person {hairColor: 'blonde', phoneNumber: 123456789})-[:LIVES_ON]->(end:Street)
-CALL gds.shortestPath.dijkstra.stream({
-    nodeProjection: 'Street',
-    relationshipProjection: {
-        CONNECTED_TO: {
-            type: 'CONNECTED_TO',
-            orientation: 'UNDIRECTED'
-        }
-    },
-    startNode: id(start),
-    endNode: id(end),
-    relationshipWeightProperty: 'distance'
-})
-YIELD index, sourceNode, targetNode, totalCost, nodeIds, costs
-RETURN 
-    crime.crimeType AS CrimeType,
-    gds.util.asNode(sourceNode).name AS CrimeLocation,
-    gds.util.asNode(targetNode).name AS WitnessLocation,
-    witness.firstName + " " + witness.lastName AS Witness,
-    [nodeId IN nodeIds | gds.util.asNode(nodeId).name] AS Path,
-    totalCost AS Distance
-ORDER BY Distance ASC;
+// najkrotsza sciazka od podejrzanych do miejsca zbrodni
+MATCH (suspect:Person)
+WHERE (suspect.hairColor = 'red' AND suspect.height >= 160 AND suspect.height <= 170 AND suspect.hairLength = 'medium')
+   OR (suspect.phoneNumber CONTAINS '951')
+WITH suspect
+MATCH (crime:Crime {crimeType: 'Robbery'})-[:COMMITTED_AT]->(shop:Shop)-[:LOCATED_AT]->(crimeLocation:Street),
+      (suspect)-[:LIVES_ON]->(suspectStreet:Street)
+WITH suspect, crimeLocation, suspectStreet
+CALL apoc.algo.dijkstra(suspectStreet, crimeLocation, 'CONNECTED_TO', 'distance_property') 
+YIELD path, weight
+RETURN suspect.firstName + ' ' + suspect.lastName AS Suspect,
+       suspectStreet.name AS `Lives on`,
+       weight AS TotalDistance
+ORDER BY TotalDistance ASC;

@@ -8,6 +8,8 @@
 \usepackage{booktabs}
 \usepackage{geometry}
 
+\renewcommand{\tablename}{Tabela}
+
 \geometry{a4paper, margin=1in}
 \lstdefinelanguage{Cypher}{
   keywords={TOSTRING, MATCH, RETURN, CREATE, DELETE, WHERE, SET, MERGE, LIMIT, DISTINCT, COLLECT, COALESCE, COUNT, END, WHEN, ELSE, IS NOT NULL, THEN, OPTIONAL},
@@ -55,6 +57,11 @@ Wierzchołek \textbf{Person} reprezentuje osobę, posiada on właściwości: imi
 \end{center}
 
 Wierzchołek \textbf{Street} reprezentuje ulicę, zawiera takie własciowiści jak: nazwa, miasto, kod, typ. Ulice sa powiązane ze sobą za pomocą relacji CONNECTED\_TO.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{streets.png} 
+\end{figure}
 
 \begin{center}
     \textbf{\textit{Institution}}
@@ -432,5 +439,111 @@ RETURN
 \newpage
 
 \section{Algorytmy}
+
+\subsection*{1. Logarytm Betweenness Centrality dla ulic}
+To zapytanie wykorzystuje algorytm \textit{Betweenness Centrality}, który identyfikuje najbardziej strategiczne węzły w grafie ulic. Wynikiem jest lista ulic posortowanych według ich znaczenia w sieci (im wyższy wynik, tym większe znaczenie).
+\begin{verbatim}
+CALL gds.graph.project(
+    'streetGraph',
+    'Street',
+    {
+        CONNECTED_TO: {
+            type: 'CONNECTED_TO',
+            orientation: 'UNDIRECTED'
+        }
+    }
+)
+YIELD graphName, nodeCount, relationshipCount;
+
+CALL gds.betweenness.stream('streetGraph') 
+YIELD nodeId, score
+RETURN gds.util.asNode(nodeId).name AS Street, score
+ORDER BY score DESC;
+\end{verbatim}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Street} & \textbf{Score} \\
+\hline
+Cedar Avenue & 1.1(6) \\
+Willow Way & 1.1(6) \\
+Park Lane & 0.58(3) \\
+Riverside Drive & 0.58(3) \\
+Elm Street & 0.25 \\
+Sunset Boulevard & 0.25 \\
+\hline
+\end{tabular}
+\caption{Betweenness Centrality dla ulic}
+\label{tab:street_scores}
+\end{table}
+
+\subsection*{2. Społeczności wśród ulic (Community Detection)}
+Zapytanie stosuje algorytm \textit{Louvain} do wykrywania społeczności w grafie ulic. Wynikiem jest podział ulic na społeczności, co pozwala zidentyfikować grupy wzajemnie silnie powiązanych węzłów.
+\begin{verbatim}
+CALL gds.louvain.stream(
+    'streetGraph',  // Nazwa grafu
+    {
+        relationshipTypes: ['CONNECTED_TO']
+    }
+)
+YIELD nodeId, communityId
+RETURN gds.util.asNode(nodeId).name AS Street, communityId
+ORDER BY communityId;
+\end{verbatim}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Street}         & \textbf{communityId} \\ \hline
+Elm Street              & 1                    \\ \hline
+Park Lane               & 1                    \\ \hline
+Cedar Avenue            & 2                   \\ \hline
+Willow Way              & 2                    \\ \hline
+Riverside Drive         & 2                    \\ \hline
+Sunset Boulevard        & 2                    \\ \hline
+\end{tabular}
+\caption{Wykryte społeczności ulic}
+\label{tab:streets_community}
+\end{table}
+
+
+\subsection*{3. Znalezienie najkrótszych ścieżek pomiędzy miejscem zbrodni a potencjalnymi sprawcami}
+Zapytanie wykorzystuje algorytm Dijkstry do znalezienia najkrótszej ścieżki między miejscem przestępstwa a miejscem zamieszkania potencjalnego sprawcy. Wynikiem jest ścieżka między węzłami oraz jej koszt.
+\begin{verbatim}
+MATCH (suspect:Person)
+WHERE (suspect.hairColor = 'red' AND suspect.height >= 160 AND suspect.height <= 170 AND suspect.hairLength = 'medium')
+   OR (suspect.phoneNumber CONTAINS '951')
+WITH suspect
+MATCH (crime:Crime {crimeType: 'Robbery'})-[:COMMITTED_AT]->(shop:Shop)-[:LOCATED_AT]->(crimeLocation:Street),
+      (suspect)-[:LIVES_ON]->(suspectStreet:Street)
+WITH suspect, crimeLocation, suspectStreet
+CALL apoc.algo.dijkstra(suspectStreet, crimeLocation, 'CONNECTED_TO', 'distance_property') 
+YIELD path, weight
+RETURN suspect.firstName + ' ' + suspect.lastName AS Suspect,
+       suspectStreet.name AS `Lives on`,
+       weight AS TotalDistance
+ORDER BY TotalDistance ASC;
+\end{verbatim}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{No.} & \textbf{Suspect}       & \textbf{Lives on}       & \textbf{TotalDistance} \\ \hline
+1           & Wendy Turner           & Riverside Drive          & 0.0                   \\ \hline
+2           & Daisy Anderson         & Riverside Drive          & 0.0                   \\ \hline
+3           & Paula Harris           & Riverside Drive          & 0.0                   \\ \hline
+4           & Ruby Henderson         & Riverside Drive          & 0.0                   \\ \hline
+\multicolumn{4}{|c|}{\dots\dots\dots\dots} \\ \hline
+22          & Ursula Jones           & Elm Street               & 9.0                   \\ \hline
+\end{tabular}
+\caption{Tabela podejrzanych i najkrótszych ścieżek do miejsca zbrodni}
+\end{table}
+
+
+
 
 \end{document}
