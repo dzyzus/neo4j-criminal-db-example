@@ -9,6 +9,7 @@
 \usepackage{geometry}
 
 \renewcommand{\tablename}{Tabela}
+\renewcommand{\figurename}{Rys.}
 
 \geometry{a4paper, margin=1in}
 \lstdefinelanguage{Cypher}{
@@ -86,6 +87,17 @@ Wierzchołek \textbf{Crime} reprezentuje zbrodnie. Posiada własciwości: typ pr
 \end{center}
 
 Wierzchołek \textbf{Evidence} reprezentuje dowód, który posiada własciwości takie jak: typ, opis oraz date złożenia lub jego znalezienia. Jest powiązany z wierzchołkiem zbrodnia za pomocą relacji EVIDENCE\_IN.
+
+\begin{center} 
+    \textbf{\textit{Criminal}} 
+\end{center}
+
+Wierzchołek \textbf{Criminal} reprezentuje znanego przestępcę i zawiera następujące właściwości: imię, nazwisko, wiek, długość oraz kolor włosów, kolor oczu, pseudonim oraz kartotekę przestępczą (lista przestępstw). Węzeł ten jest wykorzystywany do reprezentowania osób zaangażowanych w działania przestępcze, umożliwiając analizę powiązań między nimi za pomocą relacji \textbf{RELATED\_TO} która reprezentuje znane przypadki współpracy przy popełnianiu przestępstw, znajomości lub inne powiązania.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{relations.png} 
+\end{figure}
 
 \section{Zapytania Cypher}
 
@@ -441,7 +453,7 @@ RETURN
 \section{Algorytmy}
 
 \subsection*{1. Logarytm Betweenness Centrality dla ulic}
-To zapytanie wykorzystuje algorytm \textit{Betweenness Centrality}, który identyfikuje najbardziej strategiczne węzły w grafie ulic. Wynikiem jest lista ulic posortowanych według ich znaczenia w sieci (im wyższy wynik, tym większe znaczenie).
+To zapytanie wykorzystuje algorytm \textit{Betweenness Centrality}, który identyfikuje najbardziej strategiczne węzły (wg. liczby najkrótszych ścieżek) w grafie ulic. Wynikiem jest lista ulic posortowanych według ich znaczenia w sieci (im wyższy wynik, tym większe znaczenie).
 \begin{verbatim}
 CALL gds.graph.project(
     'streetGraph',
@@ -542,6 +554,42 @@ ORDER BY TotalDistance ASC;
 \end{tabular}
 \caption{Tabela podejrzanych i najkrótszych ścieżek do miejsca zbrodni}
 \end{table}
+
+\subsection*{4. Closeness Centrality dla siatki przestępców}
+Algorytm Closeness Centrality służy do oceny, jak "blisko" dany wierzchołek jest od innych wierzchołków. Im mniejsza suma odległości do innych wierzchołków, tym wyższa centralność danego wierzchołka.
+Przy jego użyciu identyfikujemy, którzy przestępcy są najważniejszymi węzłami w sieci powiązań między innymi przestępcami.
+
+\begin{verbatim}
+CALL gds.graph.project( 'relationsGraph', 'Criminal',
+  { 
+  RELATED_TO: { type: 'RELATED_TO', orientation: 'UNDIRECTED'} 
+  }
+)
+YIELD graphName, nodeCount, relationshipCount;
+
+CALL gds.beta.closeness.stream('relationsGraph') 
+YIELD nodeId, score 
+RETURN gds.util.asNode(nodeId).firstName + ' ' + gds.util.asNode(nodeId).lastName AS Criminal, score 
+ORDER BY score DESC;
+
+\end{verbatim}
+
+\begin{table}[h!] \centering \begin{tabular}{|l|l|l|} 
+\hline 
+\textbf{No.} & \textbf{Criminal} & \textbf{Score} \\ \hline 
+1 & Frank Carter & 0.53 \\ \hline 
+2 & Emily White & 0.47 \\ \hline 
+3 & James King & 0.47 \\ \hline 
+4 & Michael Stone & 0.39 \\ \hline 
+\multicolumn{3}{|c|}{\dots\dots\dots\dots} \\ \hline
+10 & Jane Black & 0.3 \\ \hline 
+\end{tabular} \caption{Tabela przestępców i ich wyników Closeness Centrality} \end{table}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{relations.png} 
+    \caption{Siatka przestępców}
+\end{figure}
 
 
 

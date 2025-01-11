@@ -99,3 +99,134 @@ CREATE (testimony)-[:EVIDENCE_IN]->(fraud);
 MATCH (fraud:Crime {crimeType: 'Fraud', date: '2022-11-04'})
 MATCH (emailFraud:Evidence {type: 'Email Record', details: 'Email from Victor Grant discussing fraudulent transactions with another party'})
 CREATE (emailFraud)-[:EVIDENCE_IN]->(fraud);
+
+
+// Znani przestępcy
+CREATE (JohnDoe:Criminal {
+    firstName: 'John',
+    lastName: 'Doe',
+    alias: 'The Shadow',
+    age: 45,
+    height: 180,
+    hairColor: 'black',
+    eyeColor: 'brown',
+    criminalRecord: 'bank robbery, fraud'
+}),
+(JaneBlack:Criminal {
+    firstName: 'Jane',
+    lastName: 'Black',
+    alias: 'The Phantom',
+    age: 37,
+    height: 170,
+    hairColor: 'red',
+    eyeColor: 'blue',
+    criminalRecord: 'hacking, theft'
+}),
+(MichaelStone:Criminal {
+    firstName: 'Michael',
+    lastName: 'Stone',
+    alias: 'The Crusher',
+    age: 50,
+    height: 185,
+    hairColor: 'gray',
+    eyeColor: 'green',
+    criminalRecord: 'smuggling, assault'
+}),
+(EmilyWhite:Criminal {
+    firstName: 'Emily',
+    lastName: 'White',
+    alias: 'The Siren',
+    age: 29,
+    height: 160,
+    hairColor: 'blonde',
+    eyeColor: 'hazel',
+    criminalRecord: 'extortion, bribery'
+}),
+(FrankCarter:Criminal {
+    firstName: 'Frank',
+    lastName: 'Carter',
+    alias: 'The Snake',
+    age: 40,
+    height: 175,
+    hairColor: 'brown',
+    eyeColor: 'gray',
+    criminalRecord: 'drug trafficking, fraud'
+}),
+(SarahHill:Criminal {
+    firstName: 'Sarah',
+    lastName: 'Hill',
+    alias: 'The Fox',
+    age: 33,
+    height: 165,
+    hairColor: 'auburn',
+    eyeColor: 'blue',
+    criminalRecord: 'espionage, counterfeiting'
+}),
+(JamesKing:Criminal {
+    firstName: 'James',
+    lastName: 'King',
+    alias: 'The Kingpin',
+    age: 55,
+    height: 190,
+    hairColor: 'bald',
+    eyeColor: 'brown',
+    criminalRecord: 'organized crime, arson'
+}),
+(LucyGray:Criminal {
+    firstName: 'Lucy',
+    lastName: 'Gray',
+    alias: 'The Specter',
+    age: 28,
+    height: 168,
+    hairColor: 'black',
+    eyeColor: 'green',
+    criminalRecord: 'cybercrime, burglary'
+}),
+(ThomasYoung:Criminal {
+    firstName: 'Thomas',
+    lastName: 'Young',
+    alias: 'The Ghost',
+    age: 48,
+    height: 178,
+    hairColor: 'white',
+    eyeColor: 'blue',
+    criminalRecord: 'human trafficking, kidnapping'
+}),
+(OliviaBrown:Criminal {
+    firstName: 'Olivia',
+    lastName: 'Brown',
+    alias: 'The Mistress',
+    age: 35,
+    height: 162,
+    hairColor: 'brown',
+    eyeColor: 'hazel',
+    criminalRecord: 'money laundering, extortion'
+});
+
+MATCH (JohnDoe:Criminal {firstName: 'John', lastName: 'Doe'}),
+      (JaneBlack:Criminal {firstName: 'Jane', lastName: 'Black'}),
+      (MichaelStone:Criminal {firstName: 'Michael', lastName: 'Stone'}),
+      (EmilyWhite:Criminal {firstName: 'Emily', lastName: 'White'}),
+      (FrankCarter:Criminal {firstName: 'Frank', lastName: 'Carter'}),
+      (SarahHill:Criminal {firstName: 'Sarah', lastName: 'Hill'}),
+      (JamesKing:Criminal {firstName: 'James', lastName: 'King'}),
+      (LucyGray:Criminal {firstName: 'Lucy', lastName: 'Gray'}),
+      (ThomasYoung:Criminal {firstName: 'Thomas', lastName: 'Young'}),
+      (OliviaBrown:Criminal {firstName: 'Olivia', lastName: 'Brown'})
+CREATE
+  
+  (JohnDoe)-[:RELATED_TO]->(JaneBlack),
+  (JaneBlack)-[:RELATED_TO]->(MichaelStone),
+  (MichaelStone)-[:RELATED_TO]->(JohnDoe),
+
+  (MichaelStone)-[:RELATED_TO]->(EmilyWhite),
+  (EmilyWhite)-[:RELATED_TO]->(FrankCarter),
+  (FrankCarter)-[:RELATED_TO]->(SarahHill),
+  (FrankCarter)-[:RELATED_TO]->(JamesKing),
+  
+  (JamesKing)-[:RELATED_TO]->(LucyGray),
+  (LucyGray)-[:RELATED_TO]->(ThomasYoung),
+  (ThomasYoung)-[:RELATED_TO]->(OliviaBrown),
+  (ThomasYoung)-[:RELATED_TO]->(JamesKing),
+  (OliviaBrown)-[:RELATED_TO]->(LucyGray),
+  (OliviaBrown)-[:RELATED_TO]->(JamesKing)

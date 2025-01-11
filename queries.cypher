@@ -147,3 +147,21 @@ RETURN suspect.firstName + ' ' + suspect.lastName AS Suspect,
        suspectStreet.name AS `Lives on`,
        weight AS TotalDistance
 ORDER BY TotalDistance ASC;
+
+// Closeness Centrality - istotnosc powiazan miedzy przestepcami
+CALL gds.graph.project(
+  'relationsGraph',
+  'Criminal',
+  {
+    RELATED_TO: {
+      type: 'RELATED_TO',
+      orientation: 'UNDIRECTED'
+    }
+  }
+)
+YIELD graphName, nodeCount, relationshipCount;
+
+CALL gds.beta.closeness.stream('relationsGraph') 
+YIELD nodeId, score 
+RETURN gds.util.asNode(nodeId).firstName + ' ' + gds.util.asNode(nodeId).lastName AS Criminal, score 
+ORDER BY score DESC;
