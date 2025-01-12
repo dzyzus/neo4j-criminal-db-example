@@ -48,16 +48,15 @@ W ramach projektu zaliczeniowego stworzyliśmy grafową bazę danych, której ce
 Wierzchołek \textbf{Person} reprezentuje osobę, posiada on właściwości: imię, nazwisko, wiek, długość oraz kolor włosów, kolor oczu, numer telefonu, numer konta bankowego oraz zawód jaki wykonuje. Jest on powiązany z następującymi wierzchołkami:
 
 \begin{itemize}
-    \item \textbf{Street} – relacja LIVES\_ON pomiędzy Person a Street.
-    \item \textbf{Shop} – relacja BOUGHT\_AT lub VISITED pomiędzy Person a Shop. Relacja posiada dodatkowo właściwości, takie jak: typ wizyty, ilośc zakupów, ilośc wizyt.
-    \item \textbf{Institution} – TODO ?? Zrobić powiązanie z bankiem jak ktoś ma tam konto?
+    \item \textbf{Street} – relacja \textbf{LIVES\_ON} pomiędzy Person a Street.
+    \item \textbf{Shop} – relacja \textbf{BOUGHT\_AT} lub \textbf{VISITED} pomiędzy Person a Shop. Relacja posiada dodatkowo właściwości, takie jak: typ wizyty, ilośc zakupów, ilośc wizyt.
 \end{itemize}
 
 \begin{center}
     \textbf{\textit{Street}}
 \end{center}
 
-Wierzchołek \textbf{Street} reprezentuje ulicę, zawiera takie własciowiści jak: nazwa, miasto, kod, typ. Ulice sa powiązane ze sobą za pomocą relacji CONNECTED\_TO.
+Wierzchołek \textbf{Street} reprezentuje ulicę, zawiera takie własciowiści jak: nazwa, miasto, kod, typ. Ulice sa powiązane ze sobą za pomocą relacji \textbf{CONNECTED\_TO}.
 
 \begin{figure}[h!]
     \centering
@@ -68,25 +67,25 @@ Wierzchołek \textbf{Street} reprezentuje ulicę, zawiera takie własciowiści j
     \textbf{\textit{Institution}}
 \end{center}
 
-Wierzchołek \textbf{Institution} reprezentuje instytucję, jego własciowościami jest nazwa oraz jaki jest to typ instytucji. Wierzchołek ten powiązany jest z ulicami za pomocą relacji LOCATED\_AT.
+Wierzchołek \textbf{Institution} reprezentuje instytucję, jego własciowościami jest nazwa oraz jaki jest to typ instytucji. Wierzchołek ten powiązany jest z ulicami za pomocą relacji \textbf{LOCATED\_AT}.
 
 \begin{center}
     \textbf{\textit{Shop}}
 \end{center}
 
-Wierzchołek \textbf{Shop} reprezentuje sklep. Posiada następujące własciwości: nazwa, typ oraz godziny otwarcia. Jest powiązany z ulicą za pomocą relacji LOCATED\_AT.
+Wierzchołek \textbf{Shop} reprezentuje sklep. Posiada następujące własciwości: nazwa, typ oraz godziny otwarcia. Jest powiązany z ulicą za pomocą relacji \textbf{LOCATED\_AT}.
 
 \begin{center}
     \textbf{\textit{Crime}}
 \end{center}
 
-Wierzchołek \textbf{Crime} reprezentuje zbrodnie. Posiada własciwości: typ przestępstwa, data, wyrok. Jest powiązany z daną ulicą, sklepem czy instytucją za pomocą relacji o nazwie COMMITTED\_AT.
+Wierzchołek \textbf{Crime} reprezentuje zbrodnie. Posiada własciwości: typ przestępstwa, data, wyrok. Jest powiązany z daną ulicą, sklepem czy instytucją za pomocą relacji o nazwie \textbf{COMMITTED\_AT}.
 
 \begin{center}
     \textbf{\textit{Evidence}}
 \end{center}
 
-Wierzchołek \textbf{Evidence} reprezentuje dowód, który posiada własciwości takie jak: typ, opis oraz date złożenia lub jego znalezienia. Jest powiązany z wierzchołkiem zbrodnia za pomocą relacji EVIDENCE\_IN.
+Wierzchołek \textbf{Evidence} reprezentuje dowód, który posiada własciwości takie jak: typ, opis oraz date złożenia lub jego znalezienia. Jest powiązany z wierzchołkiem zbrodnia za pomocą relacji \textbf{EVIDENCE\_IN}.
 
 \begin{center} 
     \textbf{\textit{Criminal}} 
@@ -452,7 +451,7 @@ RETURN
 
 \section{Algorytmy}
 
-\subsection*{1. Logarytm Betweenness Centrality dla ulic}
+\subsection*{Logarytm Betweenness Centrality dla ulic}
 To zapytanie wykorzystuje algorytm \textit{Betweenness Centrality}, który identyfikuje najbardziej strategiczne węzły (wg. liczby najkrótszych ścieżek) w grafie ulic. Wynikiem jest lista ulic posortowanych według ich znaczenia w sieci (im wyższy wynik, tym większe znaczenie).
 \begin{verbatim}
 CALL gds.graph.project(
@@ -491,7 +490,7 @@ Sunset Boulevard & 0.25 \\
 \label{tab:street_scores}
 \end{table}
 
-\subsection*{2. Społeczności wśród ulic (Community Detection)}
+\subsection*{Społeczności wśród ulic (Community Detection)}
 Zapytanie stosuje algorytm \textit{Louvain} do wykrywania społeczności w grafie ulic. Wynikiem jest podział ulic na społeczności, co pozwala zidentyfikować grupy wzajemnie silnie powiązanych węzłów.
 \begin{verbatim}
 CALL gds.louvain.stream(
@@ -522,7 +521,7 @@ Sunset Boulevard        & 2                    \\ \hline
 \end{table}
 
 
-\subsection*{3. Znalezienie najkrótszych ścieżek pomiędzy miejscem zbrodni a potencjalnymi sprawcami}
+\subsection*{Znalezienie najkrótszych ścieżek pomiędzy miejscem zbrodni a potencjalnymi sprawcami}
 Zapytanie wykorzystuje algorytm Dijkstry do znalezienia najkrótszej ścieżki między miejscem przestępstwa a miejscem zamieszkania potencjalnego sprawcy. Wynikiem jest ścieżka między węzłami oraz jej koszt.
 \begin{verbatim}
 MATCH (suspect:Person)
@@ -555,7 +554,7 @@ ORDER BY TotalDistance ASC;
 \caption{Tabela podejrzanych i najkrótszych ścieżek do miejsca zbrodni}
 \end{table}
 
-\subsection*{4. Closeness Centrality dla siatki przestępców}
+\subsection*{Closeness Centrality dla siatki przestępców}
 Algorytm Closeness Centrality służy do oceny, jak "blisko" dany wierzchołek jest od innych wierzchołków. Im mniejsza suma odległości do innych wierzchołków, tym wyższa centralność danego wierzchołka.
 Przy jego użyciu identyfikujemy, którzy przestępcy są najważniejszymi węzłami w sieci powiązań między innymi przestępcami.
 
